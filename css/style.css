@@ -30,6 +30,10 @@ body {
   padding-bottom: 120px;
 }
 
+.message-type option {
+  color: black;
+}
+
 .heading_container {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -657,6 +661,17 @@ a:focus {
 
 .heading_container {
   margin-bottom: 30px;
+}
+
+.message-type {
+  width: 100%;
+  border: none;
+  height: 50px;
+  margin-bottom: 25px;
+  padding-left: 22px;
+  outline: none;
+  -webkit-box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
+          box-shadow: 0 0 7px 0 rgba(0, 0, 0, 0.2);
 }
 
 .contact_section input {
