@@ -26,6 +26,7 @@ body {
 }
 
 .layout_padding-bottom {
+  padding-top: 120px;
   padding-bottom: 120px;
 }
 
@@ -40,6 +41,10 @@ body {
   -webkit-box-align: start;
       -ms-flex-align: start;
           align-items: flex-start;
+}
+
+.bottom-padding {
+  padding-bottom: 8rem;
 }
 
 .heading_container h2 {
