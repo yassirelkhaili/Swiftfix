@@ -151,6 +151,10 @@ a:focus {
   text-align: center;
 }
 
+.contact-btn:hover {
+  color: white !important;
+}
+
 .custom_nav-container .navbar-nav .nav-item:hover .nav-link, .custom_nav-container .navbar-nav .nav-item.active .nav-link {
   color: #0355cc;
 }
