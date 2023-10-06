@@ -13,8 +13,8 @@ $(".owl-carousel").owlCarousel({
     nav: true,
     dots: false,
     navText: [
-        '<i class="fa fa-long-arrow-left" aria-hidden="true"></i>',
-        '<i class="fa fa-long-arrow-right" aria-hidden="true"></i>'
+        '<i class="fa fa-long-arrow-left" aria-hidden="true" style="border: 1px solid #0355CC; background-color: #0355CC; color: white;"></i>',
+        '<i class="fa fa-long-arrow-right" aria-hidden="true" style="border: 1px solid #0355CC; background-color: #0355CC; color: white;"></i>'
     ],
     autoplay: true,
     autoplayHoverPause: true,
