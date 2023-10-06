@@ -13,8 +13,8 @@ $(".owl-carousel").owlCarousel({
     nav: true,
     dots: false,
     navText: [
-        '<i class="fa fa-long-arrow-left" aria-hidden="true" style="border: 1px solid #0355CC; background-color: #0355CC; color: white;"></i>',
-        '<i class="fa fa-long-arrow-right" aria-hidden="true" style="border: 1px solid #0355CC; background-color: #0355CC; color: white;"></i>'
+        '<i class="fa fa-long-arrow-left" aria-hidden="true" aria-label="random-link lol" aria-labelledby="leavemealone" title="random title"></i>',
+        '<i class="fa fa-long-arrow-right" aria-hidden="true" aria-label="random-link lol" aria-labelledby="leavemealone" title="random title"></i>'
     ],
     autoplay: true,
     autoplayHoverPause: true,
