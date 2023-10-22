@@ -1,4 +1,3 @@
-"use strict";
 //fun typescript practice (╯°□°）╯︵ ┻━┻
 const navGroupBurgerDiv = document.createElement('div');
 const parentNode = document.querySelector("header");
@@ -7,7 +6,7 @@ const navChild = document.getElementById("search");
 const navGroup = document.querySelector(".nav__group");
 const linesArr = new Array;
 const groups = document.querySelectorAll(".faq__column__items__item__group");
-const form = document.querySelector("form");
+const form = document.querySelector("#form");
 const createBurgerMenu = () => {
     const burgerMenu = document.createElement("nav");
     const ul = document.createElement("ul");
@@ -91,7 +90,8 @@ function handleAccordionClickEvent(event) {
         }
     }
 }
-container.addEventListener("click", handleAccordionClickEvent);
+if (container)
+    container.addEventListener("click", handleAccordionClickEvent);
 const handleBlurEffect = (event) => {
     groups.forEach((group) => {
         if (group.classList.contains("faq__column__items__item__group--active") && event.target !== group && !group.contains(event.target)) {
@@ -100,3 +100,33 @@ const handleBlurEffect = (event) => {
     });
 };
 document.addEventListener("click", handleBlurEffect);
+const handleContactFormSubmission = () => {
+    form.addEventListener("submit", async (event) => {
+        console.log("form submitted");
+        event.preventDefault();
+        const formData = new FormData(form);
+        const jsonData = {};
+        formData.forEach((value, key) => {
+            jsonData[key] = value;
+        });
+        const jsonString = JSON.stringify(jsonData);
+        try {
+            const response = await fetch("http://localhost:8000/api/contact", {
+                method: "POST",
+                body: jsonString,
+            });
+            if (response.ok) {
+                console.log("All ok");
+            }
+            else {
+                console.error("there was an error");
+            }
+        }
+        catch (error) {
+            throw new Error("an error has occured " + error);
+        }
+    });
+};
+if (form)
+    document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
+export {};

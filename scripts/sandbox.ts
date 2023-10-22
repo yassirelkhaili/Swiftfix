@@ -1,5 +1,7 @@
 //fun typescript practice (╯°□°）╯︵ ┻━┻
- 
+
+import * as config from "../config/config.js";
+
 const navGroupBurgerDiv = document.createElement('div') as HTMLDivElement;
 const parentNode: HTMLElement | null = document.querySelector("header");
 const navGroupBtn = document.createElement('a') as HTMLAnchorElement;
@@ -7,7 +9,7 @@ const navChild: HTMLElement | null = document.getElementById("search");
 const navGroup: Element | null = document.querySelector(".nav__group");
 const linesArr: Array<HTMLSpanElement> = new Array <HTMLSpanElement>;
 const groups = document.querySelectorAll(".faq__column__items__item__group");
-const form = document.querySelector("form") as HTMLFormElement;
+const form = document.querySelector("#form") as HTMLFormElement;
 
 const createBurgerMenu = (): HTMLElement => {
     const burgerMenu: HTMLElement = document.createElement("nav");
@@ -100,7 +102,7 @@ function handleAccordionClickEvent(event: Event) {
   }
 }
 
-container.addEventListener("click", handleAccordionClickEvent);
+if(container) container.addEventListener("click", handleAccordionClickEvent);
 
 const handleBlurEffect = (event: Event) => {
     groups.forEach((group) => {
@@ -112,6 +114,36 @@ const handleBlurEffect = (event: Event) => {
 
 document.addEventListener("click", handleBlurEffect);
 
+
+const handleContactFormSubmission = () => {
+  form.addEventListener("submit", async (event: Event) => {
+    console.log("form submitted")
+    event.preventDefault();
+    const formData = new FormData(form);
+    const jsonData: { [key: string]: any } = {};
+    formData.forEach((value, key) => {
+      jsonData[key] = value;
+    });
+    const jsonString: string = JSON.stringify(jsonData);
+    try {
+      const response = await fetch ("http://localhost:8000/api/contact", {
+        method: "POST",
+        body: jsonString,
+      })
+      if (response.ok)
+      {
+        console.log("All ok");
+      } else {
+        console.error("there was an error");
+      }
+    } catch (error) {
+      throw new Error("an error has occured " + error);
+    }
+  }
+    )
+}
+
+if(form) document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
 
 
 

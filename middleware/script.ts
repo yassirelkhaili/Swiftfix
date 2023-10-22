@@ -5,18 +5,17 @@ const server = http.createServer((req, res) => {
     let data: string = "";
     let statusCode: number = res.statusCode;
     let responseData: string = "";
-    if (req.method === "POST" && req.url === `${process.env.ROOT_URL}/api/contact`) {
-        res.setHeader('Content-Type', 'application/json');
-        res.setHeader('Access-Control-Allow-Origin', '*');
+    if (req.method === "POST" && req.url === "/api/contact") {
+        console.log("accessed")
+        res.setHeader("Access-Control-Allow-Origin", "http://localhost:5500");
+        res.setHeader("Access-Control-Allow-Methods", "POST");
         try {
             req.on("data", (chunk: string) => {
                 data += chunk;
             })
             req.on("end", () => {
                 const requestData: string = JSON.parse(data);
-                console.log(requestData);
                 responseData = JSON.stringify({message: "Message has been received successfuly", data: requestData});
-                console.log(responseData);
                 statusCode = 200;
                 res.end(responseData);
             })
