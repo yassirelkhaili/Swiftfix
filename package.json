@@ -1,0 +1,9 @@
+{
+  "type": "module",
+  "dependencies": {
+    "nodemailer": "^6.9.6"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.7"
+  }
+}
