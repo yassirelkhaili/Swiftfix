@@ -200,42 +200,41 @@ const generateCarouselButtons = () => {
 
 document.addEventListener("DOMContentLoaded", generateCarouselButtons);
 
-const handleCarousel = () => {
-  let currentSlide: number = 0;
+let currentSlide: number = 0;
+const showItem = (index: number) => {
   const spanButtons = document.querySelectorAll(".testimonial__carousel__button") as NodeListOf<HTMLSpanElement>;
-  const interval: number = 5000;
+  const length = carouselItems.length;
 
-  const showItem = (index: number) => {
-    const length = carouselItems.length;
-  
-    if (index < 0) {
-      index = length - 1;
-    } else if (index >= length) {
-      index = 0;
+  if (index < 0) {
+    index = length - 1;
+  } else if (index >= length) {
+    index = 0;
+  }
+
+  for (let i = 0; i < length; i++) {
+    const item = carouselItems[i];
+    const button = spanButtons[i];
+
+    if (i === index) {
+      item.style.display = "flex";
+      setTimeout(() => {
+        item.classList.add("testimonial__block--active");
+      }, 100);
+      button.classList.add("testimonial__carousel__button--active");
+    } else {
+      item.style.display = "none";
+      setTimeout(() => {
+        item.classList.remove("testimonial__block--active");
+      }, 100);
+      button.classList.remove("testimonial__carousel__button--active");
     }
-  
-    for (let i = 0; i < length; i++) {
-      const item = carouselItems[i];
-      const button = spanButtons[i];
-  
-      if (i === index) {
-        item.style.display = "flex";
-        setTimeout(() => {
-          item.classList.add("testimonial__block--active");
-        }, 100);
-        button.classList.add("testimonial__carousel__button--active");
-      } else {
-        item.style.display = "none";
-        setTimeout(() => {
-          item.classList.remove("testimonial__block--active");
-        }, 100);
-        button.classList.remove("testimonial__carousel__button--active");
-      }
-    }
-  
-    currentSlide = index;
-  };
-  
+  }
+
+  currentSlide = index;
+};
+
+const handleCarousel = () => {
+  const interval: number = 5000;
 
   const autoSlide = () => {
       currentSlide++;
@@ -243,11 +242,16 @@ const handleCarousel = () => {
   };
 
   showItem(currentSlide);
-
   setInterval(autoSlide, interval);
+  const spanButtons = document.querySelectorAll(".testimonial__carousel__button") as NodeListOf<HTMLSpanElement>;
+  spanButtons.forEach((span: HTMLSpanElement, index: number) => {
+    span.addEventListener("click", () => showItem(index));
+  });
 };
 
+
 document.addEventListener("DOMContentLoaded", handleCarousel);
+
 
 
 

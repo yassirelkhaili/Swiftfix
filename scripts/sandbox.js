@@ -177,43 +177,47 @@ const generateCarouselButtons = () => {
     }
 };
 document.addEventListener("DOMContentLoaded", generateCarouselButtons);
-const handleCarousel = () => {
-    let currentSlide = 0;
+let currentSlide = 0;
+const showItem = (index) => {
     const spanButtons = document.querySelectorAll(".testimonial__carousel__button");
+    const length = carouselItems.length;
+    if (index < 0) {
+        index = length - 1;
+    }
+    else if (index >= length) {
+        index = 0;
+    }
+    for (let i = 0; i < length; i++) {
+        const item = carouselItems[i];
+        const button = spanButtons[i];
+        if (i === index) {
+            item.style.display = "flex";
+            setTimeout(() => {
+                item.classList.add("testimonial__block--active");
+            }, 100);
+            button.classList.add("testimonial__carousel__button--active");
+        }
+        else {
+            item.style.display = "none";
+            setTimeout(() => {
+                item.classList.remove("testimonial__block--active");
+            }, 100);
+            button.classList.remove("testimonial__carousel__button--active");
+        }
+    }
+    currentSlide = index;
+};
+const handleCarousel = () => {
     const interval = 5000;
-    const showItem = (index) => {
-        const length = carouselItems.length;
-        if (index < 0) {
-            index = length - 1;
-        }
-        else if (index >= length) {
-            index = 0;
-        }
-        for (let i = 0; i < length; i++) {
-            const item = carouselItems[i];
-            const button = spanButtons[i];
-            if (i === index) {
-                item.style.display = "flex";
-                setTimeout(() => {
-                    item.classList.add("testimonial__block--active");
-                }, 100);
-                button.classList.add("testimonial__carousel__button--active");
-            }
-            else {
-                item.style.display = "none";
-                setTimeout(() => {
-                    item.classList.remove("testimonial__block--active");
-                }, 100);
-                button.classList.remove("testimonial__carousel__button--active");
-            }
-        }
-        currentSlide = index;
-    };
     const autoSlide = () => {
         currentSlide++;
         showItem(currentSlide);
     };
     showItem(currentSlide);
     setInterval(autoSlide, interval);
+    const spanButtons = document.querySelectorAll(".testimonial__carousel__button");
+    spanButtons.forEach((span, index) => {
+        span.addEventListener("click", () => showItem(index));
+    });
 };
 document.addEventListener("DOMContentLoaded", handleCarousel);
