@@ -13,6 +13,7 @@ const readbtn = document.querySelector(".readmore");
 const closeBtn = document.querySelector(".modal__button__footer__close");
 const header = document.getElementsByTagName("header")[0];
 const headerCloseBtn = document.querySelector(".modal__button__close");
+const carouselItems = document.querySelectorAll(".testimonial__block");
 const createBurgerMenu = () => {
     const burgerMenu = document.createElement("nav");
     const ul = document.createElement("ul");
@@ -160,3 +161,59 @@ if (modal && readbtn) {
     obscure.addEventListener("click", handleModalClose);
     headerCloseBtn.addEventListener("click", handleModalClose);
 }
+const generateCarouselButtons = () => {
+    const buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("testimonial__carousel__buttons");
+    const createCarouselBtn = () => {
+        const btn = document.createElement("span");
+        const buttonContainer = document.querySelector(".testimonial__carousel__buttons");
+        btn.classList.add("testimonial__carousel__button");
+        buttonContainer.appendChild(btn);
+    };
+    let itemCount = carouselItems.length;
+    while (itemCount > 0) {
+        createCarouselBtn();
+        itemCount--;
+    }
+};
+document.addEventListener("DOMContentLoaded", generateCarouselButtons);
+const handleCarousel = () => {
+    let currentSlide = 0;
+    const spanButtons = document.querySelectorAll(".testimonial__carousel__button");
+    const interval = 5000;
+    const showItem = (index) => {
+        const length = carouselItems.length;
+        if (index < 0) {
+            index = length - 1;
+        }
+        else if (index >= length) {
+            index = 0;
+        }
+        for (let i = 0; i < length; i++) {
+            const item = carouselItems[i];
+            const button = spanButtons[i];
+            if (i === index) {
+                item.style.display = "flex";
+                setTimeout(() => {
+                    item.classList.add("testimonial__block--active");
+                }, 100);
+                button.classList.add("testimonial__carousel__button--active");
+            }
+            else {
+                item.style.display = "none";
+                setTimeout(() => {
+                    item.classList.remove("testimonial__block--active");
+                }, 100);
+                button.classList.remove("testimonial__carousel__button--active");
+            }
+        }
+        currentSlide = index;
+    };
+    const autoSlide = () => {
+        currentSlide++;
+        showItem(currentSlide);
+    };
+    showItem(currentSlide);
+    setInterval(autoSlide, interval);
+};
+document.addEventListener("DOMContentLoaded", handleCarousel);

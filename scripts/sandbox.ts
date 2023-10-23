@@ -15,6 +15,7 @@ const readbtn = document.querySelector(".readmore") as HTMLAnchorElement;
 const closeBtn = document.querySelector(".modal__button__footer__close") as HTMLButtonElement;
 const header = document.getElementsByTagName("header")[0] as HTMLHeadElement;
 const headerCloseBtn = document.querySelector(".modal__button__close") as HTMLButtonElement;
+const carouselItems = document.querySelectorAll(".testimonial__block") as NodeListOf<HTMLDivElement>;
 
 const createBurgerMenu = (): HTMLElement => {
     const burgerMenu: HTMLElement = document.createElement("nav");
@@ -119,7 +120,6 @@ const handleBlurEffect = (event: Event) => {
 
 document.addEventListener("click", handleBlurEffect);
 
-
 const handleContactFormSubmission = () => {
   form.addEventListener("submit", async (event: Event) => {
     console.log("form submitted")
@@ -180,6 +180,80 @@ if (modal && readbtn)
   obscure.addEventListener("click", handleModalClose);
   headerCloseBtn.addEventListener("click", handleModalClose);
 }
+
+const generateCarouselButtons = () => {
+  const buttonContainer = document.createElement("div") as HTMLDivElement;
+
+  buttonContainer.classList.add("testimonial__carousel__buttons");
+  const createCarouselBtn = (): void => {
+  const btn = document.createElement("span") as HTMLSpanElement;
+  const buttonContainer = document.querySelector(".testimonial__carousel__buttons") as HTMLDivElement;
+  btn.classList.add("testimonial__carousel__button");
+  buttonContainer.appendChild(btn);
+  }
+  let itemCount: number = carouselItems.length;
+  while (itemCount > 0) {
+    createCarouselBtn();
+    itemCount--;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", generateCarouselButtons);
+
+const handleCarousel = () => {
+  let currentSlide: number = 0;
+  const spanButtons = document.querySelectorAll(".testimonial__carousel__button") as NodeListOf<HTMLSpanElement>;
+  const interval: number = 5000;
+
+  const showItem = (index: number) => {
+    const length = carouselItems.length;
+  
+    if (index < 0) {
+      index = length - 1;
+    } else if (index >= length) {
+      index = 0;
+    }
+  
+    for (let i = 0; i < length; i++) {
+      const item = carouselItems[i];
+      const button = spanButtons[i];
+  
+      if (i === index) {
+        item.style.display = "flex";
+        setTimeout(() => {
+          item.classList.add("testimonial__block--active");
+        }, 100);
+        button.classList.add("testimonial__carousel__button--active");
+      } else {
+        item.style.display = "none";
+        setTimeout(() => {
+          item.classList.remove("testimonial__block--active");
+        }, 100);
+        button.classList.remove("testimonial__carousel__button--active");
+      }
+    }
+  
+    currentSlide = index;
+  };
+  
+
+  const autoSlide = () => {
+      currentSlide++;
+      showItem(currentSlide);
+  };
+
+  showItem(currentSlide);
+
+  setInterval(autoSlide, interval);
+};
+
+document.addEventListener("DOMContentLoaded", handleCarousel);
+
+
+
+
+
+
 
 
 
