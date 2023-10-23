@@ -1,4 +1,5 @@
 //fun typescript practice (╯°□°）╯︵ ┻━┻
+import * as config from "../config/config.js";
 const navGroupBurgerDiv = document.createElement('div');
 const parentNode = document.querySelector("header");
 const navGroupBtn = document.createElement('a');
@@ -7,6 +8,8 @@ const navGroup = document.querySelector(".nav__group");
 const linesArr = new Array;
 const groups = document.querySelectorAll(".faq__column__items__item__group");
 const form = document.querySelector("#form");
+const modal = document.querySelector(".modal__container");
+const readbtn = document.querySelector("#readmore");
 const createBurgerMenu = () => {
     const burgerMenu = document.createElement("nav");
     const ul = document.createElement("ul");
@@ -111,12 +114,13 @@ const handleContactFormSubmission = () => {
         });
         const jsonString = JSON.stringify(jsonData);
         try {
-            const response = await fetch("http://localhost:8000/api/contact", {
+            const response = await fetch(config.ENDPOINT, {
                 method: "POST",
                 body: jsonString,
             });
             if (response.ok) {
-                console.log("All ok");
+                const responseData = await response.json();
+                console.log(responseData);
             }
             else {
                 console.error("there was an error");
@@ -129,4 +133,8 @@ const handleContactFormSubmission = () => {
 };
 if (form)
     document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
-export {};
+const handleModalTrigger = () => {
+    modal.classList.add("modal__container--active");
+};
+if (modal && readbtn)
+    readbtn.addEventListener("click", handleModalTrigger);

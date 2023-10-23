@@ -10,6 +10,8 @@ const navGroup: Element | null = document.querySelector(".nav__group");
 const linesArr: Array<HTMLSpanElement> = new Array <HTMLSpanElement>;
 const groups = document.querySelectorAll(".faq__column__items__item__group");
 const form = document.querySelector("#form") as HTMLFormElement;
+const modal = document.querySelector(".modal__container") as HTMLDivElement;
+const readbtn = document.querySelector("#readmore") as HTMLAnchorElement;
 
 const createBurgerMenu = (): HTMLElement => {
     const burgerMenu: HTMLElement = document.createElement("nav");
@@ -126,13 +128,14 @@ const handleContactFormSubmission = () => {
     });
     const jsonString: string = JSON.stringify(jsonData);
     try {
-      const response = await fetch ("http://localhost:8000/api/contact", {
+      const response: Response = await fetch (config.ENDPOINT, {
         method: "POST",
         body: jsonString,
       })
       if (response.ok)
       {
-        console.log("All ok");
+        const responseData: JSON = await response.json();
+        console.log(responseData);
       } else {
         console.error("there was an error");
       }
@@ -144,6 +147,13 @@ const handleContactFormSubmission = () => {
 }
 
 if(form) document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
+
+const handleModalTrigger = () => {
+  modal.classList.add("modal__container--active");
+}
+
+if (modal && readbtn) readbtn.addEventListener("click", handleModalTrigger);
+
 
 
 
