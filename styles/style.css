@@ -929,6 +929,26 @@ caret-color: var(--main-color);
     background-color: white;
 }
 
+.opacity--active {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 50;
+    z-index: 5;
+    transition: 0.3s ease-in-out;
+}
+
+.opacity {
+    opacity: 100;
+    transition: 0.3s ease-in-out; 
+}
+
 .modal div {
     width: 100%;
     padding: 1rem 1rem;
@@ -951,6 +971,14 @@ caret-color: var(--main-color);
     font-family: 'Plus Jakarta Sans';
     font-weight: 500;
     color: var(--brown--text);
+}
+
+.modal__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 0.3rem;
 }
 
 .modal__button__close {
@@ -992,7 +1020,7 @@ caret-color: var(--main-color);
 }
 
 .modal__container--active {
-    transform: translate(-50%, -120%);
+    transform: translate(-50%, -18rem);
     opacity: 100;
 }
 

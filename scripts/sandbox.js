@@ -9,7 +9,10 @@ const linesArr = new Array;
 const groups = document.querySelectorAll(".faq__column__items__item__group");
 const form = document.querySelector("#form");
 const modal = document.querySelector(".modal__container");
-const readbtn = document.querySelector("#readmore");
+const readbtn = document.querySelector(".readmore");
+const closeBtn = document.querySelector(".modal__button__footer__close");
+const header = document.getElementsByTagName("header")[0];
+const headerCloseBtn = document.querySelector(".modal__button__close");
 const createBurgerMenu = () => {
     const burgerMenu = document.createElement("nav");
     const ul = document.createElement("ul");
@@ -133,8 +136,27 @@ const handleContactFormSubmission = () => {
 };
 if (form)
     document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
+const createObscureDiv = () => {
+    const div = document.createElement("div");
+    div.classList.add("opacity");
+    div.id = "opacity";
+    header.appendChild(div);
+};
+createObscureDiv();
+const obscure = document.getElementById("opacity");
 const handleModalTrigger = () => {
     modal.classList.add("modal__container--active");
+    obscure.classList.add("opacity--active");
+    document.body.style.overflow = "hidden";
 };
-if (modal && readbtn)
+const handleModalClose = () => {
+    modal.classList.remove("modal__container--active");
+    obscure.classList.remove("opacity--active");
+    document.body.style.overflow = "visible";
+};
+if (modal && readbtn) {
     readbtn.addEventListener("click", handleModalTrigger);
+    closeBtn.addEventListener("click", handleModalClose);
+    obscure.addEventListener("click", handleModalClose);
+    headerCloseBtn.addEventListener("click", handleModalClose);
+}

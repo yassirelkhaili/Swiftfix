@@ -11,7 +11,10 @@ const linesArr: Array<HTMLSpanElement> = new Array <HTMLSpanElement>;
 const groups = document.querySelectorAll(".faq__column__items__item__group");
 const form = document.querySelector("#form") as HTMLFormElement;
 const modal = document.querySelector(".modal__container") as HTMLDivElement;
-const readbtn = document.querySelector("#readmore") as HTMLAnchorElement;
+const readbtn = document.querySelector(".readmore") as HTMLAnchorElement;
+const closeBtn = document.querySelector(".modal__button__footer__close") as HTMLButtonElement;
+const header = document.getElementsByTagName("header")[0] as HTMLHeadElement;
+const headerCloseBtn = document.querySelector(".modal__button__close") as HTMLButtonElement;
 
 const createBurgerMenu = (): HTMLElement => {
     const burgerMenu: HTMLElement = document.createElement("nav");
@@ -148,11 +151,36 @@ const handleContactFormSubmission = () => {
 
 if(form) document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
 
-const handleModalTrigger = () => {
-  modal.classList.add("modal__container--active");
+const createObscureDiv = () => {
+  const div = document.createElement("div") as HTMLDivElement;
+  div.classList.add("opacity");
+  div.id = "opacity";
+  header.appendChild(div);
 }
 
-if (modal && readbtn) readbtn.addEventListener("click", handleModalTrigger);
+createObscureDiv();
+const obscure  = document.getElementById("opacity") as HTMLDivElement;
+
+const handleModalTrigger = () => {
+  modal.classList.add("modal__container--active");
+  obscure.classList.add("opacity--active");
+  document.body.style.overflow = "hidden";
+}
+
+const handleModalClose = () => {
+  modal.classList.remove("modal__container--active");
+  obscure.classList.remove("opacity--active");
+  document.body.style.overflow = "visible";
+}
+
+if (modal && readbtn)
+{
+  readbtn.addEventListener("click", handleModalTrigger);
+  closeBtn.addEventListener("click", handleModalClose);
+  obscure.addEventListener("click", handleModalClose);
+  headerCloseBtn.addEventListener("click", handleModalClose);
+}
+
 
 
 
