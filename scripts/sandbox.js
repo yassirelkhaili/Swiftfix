@@ -9,11 +9,13 @@ const linesArr = new Array;
 const groups = document.querySelectorAll(".faq__column__items__item__group");
 const form = document.querySelector("#form");
 const modal = document.querySelector(".modal__container");
-const readbtn = document.querySelector(".readmore");
+const readBtn = document.querySelector(".readmore");
 const closeBtn = document.querySelector(".modal__button__footer__close");
 const header = document.getElementsByTagName("header")[0];
 const headerCloseBtn = document.querySelector(".modal__button__close");
 const carouselItems = document.querySelectorAll(".testimonial__block");
+const searchBtn = document.querySelector("#search");
+const searchModal = document.querySelector(".modal__container__search");
 const createBurgerMenu = () => {
     const burgerMenu = document.createElement("nav");
     const ul = document.createElement("ul");
@@ -145,18 +147,20 @@ const createObscureDiv = () => {
 };
 createObscureDiv();
 const obscure = document.getElementById("opacity");
-const handleModalTrigger = () => {
-    modal.classList.add("modal__container--active");
+const handleModalTrigger = (event) => {
+    const target = event.target;
+    target.tagName.toLowerCase() === "svg" ? searchModal.classList.add("modal__container--active") : modal.classList.add("modal__container--active");
     obscure.classList.add("opacity--active");
     document.body.style.overflow = "hidden";
 };
-const handleModalClose = () => {
-    modal.classList.remove("modal__container--active");
+const handleModalClose = (event) => {
+    const target = event.target;
+    target.tagName.toLowerCase() === "svg" ? searchModal.classList.remove("modal__container--active") : modal.classList.remove("modal__container--active");
     obscure.classList.remove("opacity--active");
     document.body.style.overflow = "visible";
 };
-if (modal && readbtn) {
-    readbtn.addEventListener("click", handleModalTrigger);
+if (modal && readBtn) {
+    readBtn.addEventListener("click", handleModalTrigger);
     closeBtn.addEventListener("click", handleModalClose);
     obscure.addEventListener("click", handleModalClose);
     headerCloseBtn.addEventListener("click", handleModalClose);
@@ -221,3 +225,9 @@ const handleCarousel = () => {
     });
 };
 document.addEventListener("DOMContentLoaded", handleCarousel);
+if (modal && searchBtn) {
+    searchBtn.addEventListener("click", handleModalTrigger);
+    closeBtn.addEventListener("click", handleModalClose);
+    obscure.addEventListener("click", handleModalClose);
+    headerCloseBtn.addEventListener("click", handleModalClose);
+}

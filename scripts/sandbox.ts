@@ -11,11 +11,13 @@ const linesArr: Array<HTMLSpanElement> = new Array <HTMLSpanElement>;
 const groups = document.querySelectorAll(".faq__column__items__item__group");
 const form = document.querySelector("#form") as HTMLFormElement;
 const modal = document.querySelector(".modal__container") as HTMLDivElement;
-const readbtn = document.querySelector(".readmore") as HTMLAnchorElement;
+const readBtn = document.querySelector(".readmore") as HTMLAnchorElement;
 const closeBtn = document.querySelector(".modal__button__footer__close") as HTMLButtonElement;
 const header = document.getElementsByTagName("header")[0] as HTMLHeadElement;
 const headerCloseBtn = document.querySelector(".modal__button__close") as HTMLButtonElement;
 const carouselItems = document.querySelectorAll(".testimonial__block") as NodeListOf<HTMLDivElement>;
+const searchBtn = document.querySelector("#search") as HTMLDivElement;
+const searchModal = document.querySelector(".modal__container__search") as HTMLDivElement;
 
 const createBurgerMenu = (): HTMLElement => {
     const burgerMenu: HTMLElement = document.createElement("nav");
@@ -161,21 +163,23 @@ const createObscureDiv = () => {
 createObscureDiv();
 const obscure  = document.getElementById("opacity") as HTMLDivElement;
 
-const handleModalTrigger = () => {
-  modal.classList.add("modal__container--active");
+const handleModalTrigger = (event: Event) => {
+  const target = event.target as HTMLElement;
+  target.tagName.toLowerCase() === "svg" ? searchModal.classList.add("modal__container--active"): modal.classList.add("modal__container--active");
   obscure.classList.add("opacity--active");
   document.body.style.overflow = "hidden";
 }
 
-const handleModalClose = () => {
-  modal.classList.remove("modal__container--active");
+const handleModalClose = (event: Event) => {
+  const target = event.target as HTMLElement;
+  target.tagName.toLowerCase() === "svg" ? searchModal.classList.remove("modal__container--active"): modal.classList.remove("modal__container--active");
   obscure.classList.remove("opacity--active");
   document.body.style.overflow = "visible";
 }
 
-if (modal && readbtn)
+if (modal && readBtn)
 {
-  readbtn.addEventListener("click", handleModalTrigger);
+  readBtn.addEventListener("click", handleModalTrigger);
   closeBtn.addEventListener("click", handleModalClose);
   obscure.addEventListener("click", handleModalClose);
   headerCloseBtn.addEventListener("click", handleModalClose);
@@ -210,7 +214,6 @@ const showItem = (index: number) => {
   } else if (index >= length) {
     index = 0;
   }
-
   for (let i = 0; i < length; i++) {
     const item = carouselItems[i];
     const button = spanButtons[i];
@@ -229,7 +232,6 @@ const showItem = (index: number) => {
       button.classList.remove("testimonial__carousel__button--active");
     }
   }
-
   currentSlide = index;
 };
 
@@ -249,8 +251,15 @@ const handleCarousel = () => {
   });
 };
 
-
 document.addEventListener("DOMContentLoaded", handleCarousel);
+
+if (modal && searchBtn)
+{
+  searchBtn.addEventListener("click", handleModalTrigger);
+  closeBtn.addEventListener("click", handleModalClose);
+  obscure.addEventListener("click", handleModalClose);
+  headerCloseBtn.addEventListener("click", handleModalClose);
+}
 
 
 

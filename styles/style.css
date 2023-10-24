@@ -1082,6 +1082,10 @@ caret-color: var(--main-color);
     color: var(--default-text);
 }
 
+.nav__group__search {
+    cursor: pointer;
+}
+
   @media only screen and (max-width: 800px) {
     .nav__group__items {
         display: none;
