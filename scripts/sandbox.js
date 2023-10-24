@@ -16,6 +16,8 @@ const headerCloseBtn = document.querySelector(".modal__button__close");
 const carouselItems = document.querySelectorAll(".testimonial__block");
 const searchBtn = document.querySelector("#search");
 const searchModal = document.querySelector(".modal__container__search");
+const closeBtnSearch = document.querySelector(".modal__button__footer__close__search");
+const headerCloseBtnSearch = document.querySelector(".modal__button__close__search");
 const createBurgerMenu = () => {
     const burgerMenu = document.createElement("nav");
     const ul = document.createElement("ul");
@@ -149,13 +151,14 @@ createObscureDiv();
 const obscure = document.getElementById("opacity");
 const handleModalTrigger = (event) => {
     const target = event.target;
-    target.tagName.toLowerCase() === "svg" ? searchModal.classList.add("modal__container--active") : modal.classList.add("modal__container--active");
+    target.classList.contains("modal__container__search") ? searchModal.classList.add("modal__container--active") : modal.classList.add("modal__container--active");
     obscure.classList.add("opacity--active");
     document.body.style.overflow = "hidden";
 };
 const handleModalClose = (event) => {
     const target = event.target;
-    target.tagName.toLowerCase() === "svg" ? searchModal.classList.remove("modal__container--active") : modal.classList.remove("modal__container--active");
+    target.classList.contains("modal__container__search") ? searchModal.classList.remove("modal__container--active") : modal.classList.remove("modal__container--active");
+    console.log(searchModal);
     obscure.classList.remove("opacity--active");
     document.body.style.overflow = "visible";
 };
@@ -227,7 +230,7 @@ const handleCarousel = () => {
 document.addEventListener("DOMContentLoaded", handleCarousel);
 if (modal && searchBtn) {
     searchBtn.addEventListener("click", handleModalTrigger);
-    closeBtn.addEventListener("click", handleModalClose);
+    closeBtnSearch.addEventListener("click", handleModalClose);
     obscure.addEventListener("click", handleModalClose);
-    headerCloseBtn.addEventListener("click", handleModalClose);
+    headerCloseBtnSearch.addEventListener("click", handleModalClose);
 }

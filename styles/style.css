@@ -101,6 +101,7 @@ cursor: pointer;
 }
 
 .hero__content__link {
+border: none;
 width: 170px;
 height: 22px;
 padding: 2rem;
