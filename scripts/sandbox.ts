@@ -16,7 +16,7 @@ const closeBtn = document.querySelector(".modal__button__footer__close") as HTML
 const header = document.getElementsByTagName("header")[0] as HTMLHeadElement;
 const headerCloseBtn = document.querySelector(".modal__button__close") as HTMLButtonElement;
 const carouselItems = document.querySelectorAll(".testimonial__block") as NodeListOf<HTMLDivElement>;
-const searchBtn = document.querySelectorAll('[data-search="search"]') as NodeListOf<HTMLDivElement>;
+const searchBtn = document.getElementById("search") as HTMLDivElement;
 const searchModal = document.querySelector(".modal__container__search") as HTMLDivElement;
 const closeBtnSearch = document.querySelector(".modal__button__footer__close__search") as HTMLButtonElement;
 const headerCloseBtnSearch = document.querySelector(".modal__button__close__search") as HTMLButtonElement;
@@ -56,7 +56,7 @@ linesArr.forEach(line => {
   navGroupBtn.appendChild(line);
 });
 navGroupBurgerDiv.appendChild(navGroupBtn);
-(navGroup && navChild) && navGroup.insertBefore(navGroupBurgerDiv, navChild)
+navGroup && navGroup.appendChild(navGroupBurgerDiv)
 }
 
 createBurgerBtn();
@@ -64,7 +64,6 @@ createBurgerBtn();
 //burger event listener && toggle animation class
 const lines = document.querySelectorAll(".line") as NodeListOf<HTMLSpanElement>;
 const btn = document.querySelector(".nav__group__btn") as HTMLAnchorElement;
-const burger = document.getElementById("burger-menu")as HTMLDivElement;
 const navElements: Array<string> = ["Index", "About", "Service", "Contact"]
 
 //create burger menu
@@ -125,8 +124,45 @@ const handleBlurEffect = (event: Event) => {
 document.addEventListener("click", handleBlurEffect);
 
 const handleContactFormSubmission = () => {
+  //form validation
+  const nameInput = document.querySelector("#name") as HTMLInputElement;
+  const emailInput = document.querySelector("#email") as HTMLInputElement;
+  const messageInput = document.querySelector("#message") as HTMLInputElement;
+  const subjectInput = document.querySelector("#subject") as HTMLInputElement;
+  const referralInput = document.querySelector("#referral") as HTMLInputElement;
+  
+  const emailRegex: RegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  const nameRegex: RegExp = /^[A-Za-z\s]+$/;
+  const subjectRegex: RegExp = /^[A-Za-z0-9\s]{1,50}$/;
+  const messageRegex: RegExp = /^[A-Za-z0-9\s]{1,250}$/;
+  const referralRegex: RegExp = /^[A-Za-z0-9\s]{1,50}$/;
+
+  const validateForm = () => {
+    const isValid: { error: boolean, message: string } = { error: false, message: "message" };
+    if (!nameRegex.test(nameInput.value.trim())) {
+      isValid.error = true;
+      isValid.message = "Please enter a valid name.";
+    }
+    if (!emailRegex.test(emailInput.value.trim())) {
+      isValid.error = true;
+      isValid.message = "Please enter a valid email address.";
+    }
+    if (!subjectRegex.test(subjectInput.value.trim())) {
+      isValid.error = true;
+      isValid.message = "Please enter a valid subject.";
+    }
+  if (!messageRegex.test(messageInput.value.trim())) {
+    isValid.error = true;
+    isValid.message = "Please enter a valid message.";
+  }
+  if (!referralRegex.test(referralInput.value.trim())) {
+    isValid.error = true;
+    isValid.message = "Please enter a valid referral.";
+  }
+    return isValid;
+  };
+  
   form.addEventListener("submit", async (event: Event) => {
-    console.log("form submitted")
     event.preventDefault();
     const formData = new FormData(form);
     const jsonData: { [key: string]: any } = {};
@@ -270,9 +306,7 @@ document.addEventListener("DOMContentLoaded", handleCarousel);
 
   if (modal && searchBtn)
 {
-  searchBtn.forEach((element: HTMLDivElement) => {
-    element.addEventListener("click", handleModalTrigger);
-  });
+  searchBtn.addEventListener("click", handleModalTrigger);
   closeBtnSearch.addEventListener("click", handleModalClose);
   obscure.addEventListener("click", handleModalClose);
   headerCloseBtnSearch.addEventListener("click", handleModalClose);

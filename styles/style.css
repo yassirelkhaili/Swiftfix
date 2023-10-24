@@ -1105,9 +1105,6 @@ caret-color: var(--main-color);
     .nav__group__items {
         display: none;
     }
-    .nav__group__search {
-        display: none;
-    }
     .nav__group__btn {
         display: flex;
     }

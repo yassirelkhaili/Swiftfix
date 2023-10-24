@@ -14,7 +14,7 @@ const closeBtn = document.querySelector(".modal__button__footer__close");
 const header = document.getElementsByTagName("header")[0];
 const headerCloseBtn = document.querySelector(".modal__button__close");
 const carouselItems = document.querySelectorAll(".testimonial__block");
-const searchBtn = document.querySelectorAll('[data-search="search"]');
+const searchBtn = document.getElementById("search");
 const searchModal = document.querySelector(".modal__container__search");
 const closeBtnSearch = document.querySelector(".modal__button__footer__close__search");
 const headerCloseBtnSearch = document.querySelector(".modal__button__close__search");
@@ -51,13 +51,12 @@ const createBurgerBtn = () => {
         navGroupBtn.appendChild(line);
     });
     navGroupBurgerDiv.appendChild(navGroupBtn);
-    (navGroup && navChild) && navGroup.insertBefore(navGroupBurgerDiv, navChild);
+    navGroup && navGroup.appendChild(navGroupBurgerDiv);
 };
 createBurgerBtn();
 //burger event listener && toggle animation class
 const lines = document.querySelectorAll(".line");
 const btn = document.querySelector(".nav__group__btn");
-const burger = document.getElementById("burger-menu");
 const navElements = ["Index", "About", "Service", "Contact"];
 //create burger menu
 const burgerMenu = createBurgerMenu();
@@ -112,8 +111,42 @@ const handleBlurEffect = (event) => {
 };
 document.addEventListener("click", handleBlurEffect);
 const handleContactFormSubmission = () => {
+    //form validation
+    const nameInput = document.querySelector("#name");
+    const emailInput = document.querySelector("#email");
+    const messageInput = document.querySelector("#message");
+    const subjectInput = document.querySelector("#subject");
+    const referralInput = document.querySelector("#referral");
+    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    const nameRegex = /^[A-Za-z\s]+$/;
+    const subjectRegex = /^[A-Za-z0-9\s]{1,50}$/;
+    const messageRegex = /^[A-Za-z0-9\s]{1,250}$/;
+    const referralRegex = /^[A-Za-z0-9\s]{1,50}$/;
+    const validateForm = () => {
+        const isValid = { error: false, message: "message" };
+        if (!nameRegex.test(nameInput.value.trim())) {
+            isValid.error = true;
+            isValid.message = "Please enter a valid name.";
+        }
+        if (!emailRegex.test(emailInput.value.trim())) {
+            isValid.error = true;
+            isValid.message = "Please enter a valid email address.";
+        }
+        if (!subjectRegex.test(subjectInput.value.trim())) {
+            isValid.error = true;
+            isValid.message = "Please enter a valid subject.";
+        }
+        if (!messageRegex.test(messageInput.value.trim())) {
+            isValid.error = true;
+            isValid.message = "Please enter a valid message.";
+        }
+        if (!referralRegex.test(referralInput.value.trim())) {
+            isValid.error = true;
+            isValid.message = "Please enter a valid referral.";
+        }
+        return isValid;
+    };
     form.addEventListener("submit", async (event) => {
-        console.log("form submitted");
         event.preventDefault();
         const formData = new FormData(form);
         const jsonData = {};
@@ -241,9 +274,7 @@ const handleCarousel = () => {
 };
 document.addEventListener("DOMContentLoaded", handleCarousel);
 if (modal && searchBtn) {
-    searchBtn.forEach((element) => {
-        element.addEventListener("click", handleModalTrigger);
-    });
+    searchBtn.addEventListener("click", handleModalTrigger);
     closeBtnSearch.addEventListener("click", handleModalClose);
     obscure.addEventListener("click", handleModalClose);
     headerCloseBtnSearch.addEventListener("click", handleModalClose);
