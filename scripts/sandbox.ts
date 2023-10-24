@@ -16,7 +16,7 @@ const closeBtn = document.querySelector(".modal__button__footer__close") as HTML
 const header = document.getElementsByTagName("header")[0] as HTMLHeadElement;
 const headerCloseBtn = document.querySelector(".modal__button__close") as HTMLButtonElement;
 const carouselItems = document.querySelectorAll(".testimonial__block") as NodeListOf<HTMLDivElement>;
-const searchBtn = document.querySelector("#search") as HTMLDivElement;
+const searchBtn = document.querySelectorAll('[data-search="search"]') as NodeListOf<HTMLDivElement>;
 const searchModal = document.querySelector(".modal__container__search") as HTMLDivElement;
 const closeBtnSearch = document.querySelector(".modal__button__footer__close__search") as HTMLButtonElement;
 const headerCloseBtnSearch = document.querySelector(".modal__button__close__search") as HTMLButtonElement;
@@ -270,7 +270,9 @@ document.addEventListener("DOMContentLoaded", handleCarousel);
 
   if (modal && searchBtn)
 {
-  searchBtn.addEventListener("click", handleModalTrigger);
+  searchBtn.forEach((element: HTMLDivElement) => {
+    element.addEventListener("click", handleModalTrigger);
+  });
   closeBtnSearch.addEventListener("click", handleModalClose);
   obscure.addEventListener("click", handleModalClose);
   headerCloseBtnSearch.addEventListener("click", handleModalClose);

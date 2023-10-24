@@ -14,7 +14,7 @@ const closeBtn = document.querySelector(".modal__button__footer__close");
 const header = document.getElementsByTagName("header")[0];
 const headerCloseBtn = document.querySelector(".modal__button__close");
 const carouselItems = document.querySelectorAll(".testimonial__block");
-const searchBtn = document.querySelector("#search");
+const searchBtn = document.querySelectorAll('[data-search="search"]');
 const searchModal = document.querySelector(".modal__container__search");
 const closeBtnSearch = document.querySelector(".modal__button__footer__close__search");
 const headerCloseBtnSearch = document.querySelector(".modal__button__close__search");
@@ -241,7 +241,9 @@ const handleCarousel = () => {
 };
 document.addEventListener("DOMContentLoaded", handleCarousel);
 if (modal && searchBtn) {
-    searchBtn.addEventListener("click", handleModalTrigger);
+    searchBtn.forEach((element) => {
+        element.addEventListener("click", handleModalTrigger);
+    });
     closeBtnSearch.addEventListener("click", handleModalClose);
     obscure.addEventListener("click", handleModalClose);
     headerCloseBtnSearch.addEventListener("click", handleModalClose);
