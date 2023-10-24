@@ -119,6 +119,8 @@ letter-spacing: 0.08em;
 color: var(--white-text);
 }
 
+
+
 .hero__content__description {
 font-family: 'Plus Jakarta Sans';
 font-style: normal;
@@ -1048,7 +1050,7 @@ caret-color: var(--main-color);
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -250%);
+    transform: translate(-50%, -280%);
     display: flex;
     z-index: 10;
     justify-content: center;

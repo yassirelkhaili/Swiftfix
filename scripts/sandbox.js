@@ -149,16 +149,28 @@ const createObscureDiv = () => {
 };
 createObscureDiv();
 const obscure = document.getElementById("opacity");
+let searchModalIsOpen = false;
 const handleModalTrigger = (event) => {
     const target = event.target;
-    target.classList.contains("modal__container__search") ? searchModal.classList.add("modal__container--active") : modal.classList.add("modal__container--active");
+    if (target.tagName.toLowerCase() === "svg") {
+        searchModal.classList.add("modal__container--active");
+        searchModalIsOpen = true;
+    }
+    else {
+        modal.classList.add("modal__container--active");
+    }
     obscure.classList.add("opacity--active");
     document.body.style.overflow = "hidden";
 };
 const handleModalClose = (event) => {
     const target = event.target;
-    target.classList.contains("modal__container__search") ? searchModal.classList.remove("modal__container--active") : modal.classList.remove("modal__container--active");
-    console.log(searchModal);
+    if ((target.classList.contains("modal__button__footer__close__search") || target.classList.contains("modal__button__close__search") || searchModalIsOpen)) {
+        searchModal.classList.remove("modal__container--active");
+        searchModalIsOpen = false;
+    }
+    else {
+        modal.classList.remove("modal__container--active");
+    }
     obscure.classList.remove("opacity--active");
     document.body.style.overflow = "visible";
 };
