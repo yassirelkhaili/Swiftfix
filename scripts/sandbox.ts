@@ -354,6 +354,30 @@ document.addEventListener("DOMContentLoaded", handleCarousel);
   headerCloseBtnSearch.addEventListener("click", handleModalClose);
 }
 
+const serviceNavBtn = document.getElementById("menuservice") as HTMLLIElement;
+const serviceNavBtnIcon = document.querySelector(".header__dropdown__svg") as HTMLSpanElement;
+const dropdownMenu = document.querySelector(".nav__group__dropdown") as HTMLUListElement;
+
+const handleServiceBtnMouseEnter = () => {
+serviceNavBtnIcon.classList.add("header__dropdown__svg--active");
+dropdownMenu.style.display = "flex";
+setTimeout(() => {
+  dropdownMenu.classList.add("nav__group__dropdown--active");
+}, 1);
+}
+
+const handleServiceBtnMouseLeave = () => {
+  serviceNavBtnIcon.classList.remove("header__dropdown__svg--active");
+  dropdownMenu.style.display = "none";
+    setTimeout(() => {
+      dropdownMenu.classList.remove("nav__group__dropdown--active");
+    }, 1);
+} 
+
+serviceNavBtn?.addEventListener("mouseenter", handleServiceBtnMouseEnter);
+serviceNavBtn?.addEventListener("mouseleave", handleServiceBtnMouseLeave);
+
+
 
 
 

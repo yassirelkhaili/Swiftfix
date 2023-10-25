@@ -69,11 +69,15 @@ font-weight: 400;
 font-size: 12px;
 line-height: 23px;
 letter-spacing: 1.5px;
-cursor: pointer;
 }
 
 .nav__group__items__list__item__link {
     color: var(--default-text);
+    display: flex;
+    gap: 2px;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .nav__logo {
@@ -638,8 +642,6 @@ color: var(--default-text);
     max-width: 40rem;
 }
 
-
-
 .testimonial__block--active {
     opacity: 1;
     transition: 0.3s ease-in-out;
@@ -1034,12 +1036,18 @@ caret-color: var(--main-color);
 }
 
 .header__dropdown__svg {
+    display: block;
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-position: center;
     padding: 0.5rem;
     border: none;
     cursor: pointer;
+    transition: 0.25s ease-in-out;
+}
+
+.header__dropdown__svg--active {
+    transform: rotate(180deg);
 }
 
 .modal__button__close {
@@ -1047,6 +1055,32 @@ caret-color: var(--main-color);
     padding: 0.6rem;
     border: none;
     cursor: pointer;
+}
+
+    .nav__group__dropdown {
+        position: absolute;
+        top: 1.4rem;
+        padding: 0.5rem 1rem;
+        border-radius: 10px;
+        display: none;
+        left: 0px;
+        z-index: 10;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 4px;
+        transition: 0.2s ease-in-out;
+        background-color: white;
+        opacity: 0;
+        box-shadow: 18px 18px 18px 0px rgba(0, 0, 0, 0.040);
+    }
+
+    .nav__group__dropdown--active {
+        opacity: 1;
+    }
+
+.nav__group__items__list__item--adjusted {
+    position: relative;
 }
 
 .modal__buttons {
@@ -1118,6 +1152,7 @@ caret-color: var(--main-color);
         display: flex;
     }
   }
+  
 
   @media only screen and (max-width: 1384px) {
     .hero__image {
