@@ -118,21 +118,39 @@ const messageInput = document.querySelector("#message");
 const subjectInput = document.querySelector("#subject");
 const referralInput = document.querySelector("#referral");
 const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-const nameRegex = /^[A-Za-z\s]{1,10}$/;
-const subjectRegex = /^[A-Za-z0-9\s]{1,50}$/;
+const nameRegex = /^[A-Za-z\s]{1,50}$/;
+const subjectRegex = /^[A-Za-z0-9\s]{1,100}$/;
 const messageRegex = /^[A-Za-z0-9\s]{1,250}$/;
-const referralRegex = /^[A-Za-z0-9\s]{1,50}$/;
+const referralRegex = /^[A-Za-z0-9\s]{1,60}$/;
+//create error message div
+const createErrorContainer = () => {
+    const errorContainer = document.createElement("div");
+    errorContainer.classList.add("form__error__container");
+    return errorContainer;
+};
 function validateReferral() {
+    const errorContainer = createErrorContainer();
     if (!referralInput.value.trim()) {
         referralInput.style.borderBottomColor = "#094B72";
     }
     else if (!referralRegex.test(referralInput.value.trim())) {
         isValid.error = true;
-        isValid.message = "Please enter a valid referral.";
+        referralInput.value.trim().length > 60 ? isValid.message = "Referral cannot exceed 60 charracters" : isValid.message = "Please enter a valid referral.";
         referralInput.style.color = "red";
         referralInput.style.borderBottomColor = "red";
+        errorContainer.textContent = isValid.message;
+        if (referralInput.parentNode?.querySelectorAll(".form__error__container").length === 0) {
+            if (referralInput.nextSibling) {
+                referralInput.parentNode?.insertBefore(errorContainer, referralInput.nextSibling);
+            }
+            else {
+                referralInput.parentNode?.appendChild(errorContainer);
+            }
+        }
     }
     else {
+        if (referralInput.nextElementSibling?.classList.contains("form__error__container"))
+            referralInput.nextSibling?.remove();
         isValid.error = false;
         referralInput.style.color = "green";
         referralInput.style.borderBottomColor = "green";

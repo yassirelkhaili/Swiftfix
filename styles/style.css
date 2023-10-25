@@ -1046,6 +1046,18 @@ caret-color: var(--main-color);
     transition: 0.25s ease-in-out;
 }
 
+.form__group {
+    width: 100%;
+    position: relative;
+}
+
+.form__error__container {
+    color: red;
+    position: absolute;
+    font-size: 15px;
+    top: 4.5rem;
+}
+
 .header__dropdown__svg--active {
     transform: rotate(180deg);
 }
