@@ -136,49 +136,76 @@ const nameRegex: RegExp = /^[A-Za-z\s]{1,10}$/;
 const subjectRegex: RegExp = /^[A-Za-z0-9\s]{1,50}$/;
 const messageRegex: RegExp = /^[A-Za-z0-9\s]{1,250}$/;
 
-function validateName() {
-  if (!nameRegex.test(nameInput.value.trim())) {
-    isValid.error = false;
+function validateName() { 
+  if (!nameInput.value.trim()) {
+    nameInput.style.borderBottomColor = "#094B72";
+  } else if (!nameRegex.test(nameInput.value.trim())) {
+    isValid.error = true;
     isValid.message = "Please enter a valid name.";
     nameInput.style.color = "red";
     nameInput.style.borderBottomColor = "red";
   } else {
+    isValid.error = false;
     nameInput.style.color = "green";
     nameInput.style.borderBottomColor = "green";
   }
 }
 
 function validateEmail() {
-  if (!emailRegex.test(emailInput.value.trim())) {
-    isValid.error = false;
+  if (!emailInput.value.trim()) {
+    emailInput.style.borderBottomColor = "#094B72";
+  } else if (!emailRegex.test(emailInput.value.trim())) {
+    isValid.error = true;
     isValid.message = "Please enter a valid email.";
+    emailInput.style.color = "red";
+    emailInput.style.borderBottomColor = "red";
+  } else {
+    isValid.error = false;
+    emailInput.style.color = "green";
+    emailInput.style.borderBottomColor = "green";
   }
 }
 
 function validateSubject() {
-  if (!subjectRegex.test(subjectInput.value.trim())) {
-    isValid.error = false;
+  if (!subjectInput.value.trim()) {
+    subjectInput.style.borderBottomColor = "#094B72";
+  } else if (!subjectRegex.test(subjectInput.value.trim())) {
+    isValid.error = true;
     isValid.message = "Please enter a valid Subject.";
+    subjectInput.style.color = "red";
+    subjectInput.style.borderBottomColor = "red";
+  } else {
+    isValid.error = false;
+    subjectInput.style.color = "green";
+    subjectInput.style.borderBottomColor = "green";
   }
 }
 
 function validateMessage() {
-  if (!messageRegex.test(messageInput.value.trim())) {
-    isValid.error = false;
+  if (!messageInput.value.trim()) {
+    messageInput.style.borderBottomColor = "#094B72";
+  } else if (!messageRegex.test(messageInput.value.trim())) {
+    isValid.error = true;
     isValid.message = "Please enter a valid message.";
+    messageInput.style.color = "red";
+    messageInput.style.borderBottomColor = "red";
+  } else {
+    isValid.error = false;
+    messageInput.style.color = "green";
+    messageInput.style.borderBottomColor = "green";
   }
 }
 
-nameInput.addEventListener("input", validateName);
-emailInput.addEventListener("input", validateEmail);
-subjectInput.addEventListener("input", validateSubject);
-messageInput.addEventListener("input", validateMessage);
+nameInput?.addEventListener("input", validateName);
+emailInput?.addEventListener("input", validateEmail);
+subjectInput?.addEventListener("input", validateSubject);
+messageInput?.addEventListener("input", validateMessage);
 
 const handleContactFormSubmission = () => {
-  form.addEventListener("submit", async (event: Event) => {
+  form?.addEventListener("submit", async (event: Event) => {
     event.preventDefault();
     if (!isValid.error) {
-      const formData = new FormData(form);
+    const formData = new FormData(form);
     const jsonData: { [key: string]: any } = {};
     formData.forEach((value, key) => {
       jsonData[key] = value;
