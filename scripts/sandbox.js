@@ -110,70 +110,80 @@ const handleBlurEffect = (event) => {
     });
 };
 document.addEventListener("click", handleBlurEffect);
+//form validation
+const isValid = { error: false, message: "" };
+const nameInput = document.querySelector("#name");
+const emailInput = document.querySelector("#email");
+const messageInput = document.querySelector("#message");
+const subjectInput = document.querySelector("#subject");
+const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+const nameRegex = /^[A-Za-z\s]{1,10}$/;
+const subjectRegex = /^[A-Za-z0-9\s]{1,50}$/;
+const messageRegex = /^[A-Za-z0-9\s]{1,250}$/;
+function validateName() {
+    if (!nameRegex.test(nameInput.value.trim())) {
+        isValid.error = false;
+        isValid.message = "Please enter a valid name.";
+        nameInput.style.color = "red";
+        nameInput.style.borderBottomColor = "red";
+    }
+    else {
+        nameInput.style.color = "green";
+        nameInput.style.borderBottomColor = "green";
+    }
+}
+function validateEmail() {
+    if (!emailRegex.test(emailInput.value.trim())) {
+        isValid.error = false;
+        isValid.message = "Please enter a valid email.";
+    }
+}
+function validateSubject() {
+    if (!subjectRegex.test(subjectInput.value.trim())) {
+        isValid.error = false;
+        isValid.message = "Please enter a valid Subject.";
+    }
+}
+function validateMessage() {
+    if (!messageRegex.test(messageInput.value.trim())) {
+        isValid.error = false;
+        isValid.message = "Please enter a valid message.";
+    }
+}
+nameInput.addEventListener("input", validateName);
+emailInput.addEventListener("input", validateEmail);
+subjectInput.addEventListener("input", validateSubject);
+messageInput.addEventListener("input", validateMessage);
 const handleContactFormSubmission = () => {
-    //form validation
-    const nameInput = document.querySelector("#name");
-    const emailInput = document.querySelector("#email");
-    const messageInput = document.querySelector("#message");
-    const subjectInput = document.querySelector("#subject");
-    const referralInput = document.querySelector("#referral");
-    const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-    const nameRegex = /^[A-Za-z\s]+$/;
-    const subjectRegex = /^[A-Za-z0-9\s]{1,50}$/;
-    const messageRegex = /^[A-Za-z0-9\s]{1,250}$/;
-    const referralRegex = /^[A-Za-z0-9\s]{1,50}$/;
-    const validateForm = () => {
-        const isValid = { error: false, message: "message" };
-        if (!nameRegex.test(nameInput.value.trim())) {
-            isValid.error = true;
-            isValid.message = "Please enter a valid name.";
-        }
-        if (!emailRegex.test(emailInput.value.trim())) {
-            isValid.error = true;
-            isValid.message = "Please enter a valid email address.";
-        }
-        if (!subjectRegex.test(subjectInput.value.trim())) {
-            isValid.error = true;
-            isValid.message = "Please enter a valid subject.";
-        }
-        if (!messageRegex.test(messageInput.value.trim())) {
-            isValid.error = true;
-            isValid.message = "Please enter a valid message.";
-        }
-        if (!referralRegex.test(referralInput.value.trim())) {
-            isValid.error = true;
-            isValid.message = "Please enter a valid referral.";
-        }
-        return isValid;
-    };
     form.addEventListener("submit", async (event) => {
         event.preventDefault();
-        const formData = new FormData(form);
-        const jsonData = {};
-        formData.forEach((value, key) => {
-            jsonData[key] = value;
-        });
-        const jsonString = JSON.stringify(jsonData);
-        try {
-            const response = await fetch(config.ENDPOINT, {
-                method: "POST",
-                body: jsonString,
+        if (!isValid.error) {
+            const formData = new FormData(form);
+            const jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
             });
-            if (response.ok) {
-                const responseData = await response.json();
-                console.log(responseData);
+            const jsonString = JSON.stringify(jsonData);
+            try {
+                const response = await fetch(config.ENDPOINT, {
+                    method: "POST",
+                    body: jsonString,
+                });
+                if (response.ok) {
+                    const responseData = await response.json();
+                    console.log(responseData);
+                }
+                else {
+                    console.error("there was an error");
+                }
             }
-            else {
-                console.error("there was an error");
+            catch (error) {
+                throw new Error("an error has occured " + error);
             }
-        }
-        catch (error) {
-            throw new Error("an error has occured " + error);
         }
     });
 };
-if (form)
-    document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
+document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
 const createObscureDiv = () => {
     const div = document.createElement("div");
     div.classList.add("opacity");

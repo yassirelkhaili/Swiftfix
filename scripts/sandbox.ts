@@ -123,48 +123,62 @@ const handleBlurEffect = (event: Event) => {
 
 document.addEventListener("click", handleBlurEffect);
 
-const handleContactFormSubmission = () => {
-  //form validation
-  const nameInput = document.querySelector("#name") as HTMLInputElement;
-  const emailInput = document.querySelector("#email") as HTMLInputElement;
-  const messageInput = document.querySelector("#message") as HTMLInputElement;
-  const subjectInput = document.querySelector("#subject") as HTMLInputElement;
-  const referralInput = document.querySelector("#referral") as HTMLInputElement;
-  
-  const emailRegex: RegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
-  const nameRegex: RegExp = /^[A-Za-z\s]+$/;
-  const subjectRegex: RegExp = /^[A-Za-z0-9\s]{1,50}$/;
-  const messageRegex: RegExp = /^[A-Za-z0-9\s]{1,250}$/;
-  const referralRegex: RegExp = /^[A-Za-z0-9\s]{1,50}$/;
+//form validation
+const isValid: { error: boolean, message: string } = { error: false, message: "" };
 
-  const validateForm = () => {
-    const isValid: { error: boolean, message: string } = { error: false, message: "message" };
-    if (!nameRegex.test(nameInput.value.trim())) {
-      isValid.error = true;
-      isValid.message = "Please enter a valid name.";
-    }
-    if (!emailRegex.test(emailInput.value.trim())) {
-      isValid.error = true;
-      isValid.message = "Please enter a valid email address.";
-    }
-    if (!subjectRegex.test(subjectInput.value.trim())) {
-      isValid.error = true;
-      isValid.message = "Please enter a valid subject.";
-    }
+const nameInput = document.querySelector("#name") as HTMLInputElement;
+const emailInput = document.querySelector("#email") as HTMLInputElement;
+const messageInput = document.querySelector("#message") as HTMLInputElement;
+const subjectInput = document.querySelector("#subject") as HTMLInputElement;
+
+const emailRegex: RegExp = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+const nameRegex: RegExp = /^[A-Za-z\s]{1,10}$/;
+const subjectRegex: RegExp = /^[A-Za-z0-9\s]{1,50}$/;
+const messageRegex: RegExp = /^[A-Za-z0-9\s]{1,250}$/;
+
+function validateName() {
+  if (!nameRegex.test(nameInput.value.trim())) {
+    isValid.error = false;
+    isValid.message = "Please enter a valid name.";
+    nameInput.style.color = "red";
+    nameInput.style.borderBottomColor = "red";
+  } else {
+    nameInput.style.color = "green";
+    nameInput.style.borderBottomColor = "green";
+  }
+}
+
+function validateEmail() {
+  if (!emailRegex.test(emailInput.value.trim())) {
+    isValid.error = false;
+    isValid.message = "Please enter a valid email.";
+  }
+}
+
+function validateSubject() {
+  if (!subjectRegex.test(subjectInput.value.trim())) {
+    isValid.error = false;
+    isValid.message = "Please enter a valid Subject.";
+  }
+}
+
+function validateMessage() {
   if (!messageRegex.test(messageInput.value.trim())) {
-    isValid.error = true;
+    isValid.error = false;
     isValid.message = "Please enter a valid message.";
   }
-  if (!referralRegex.test(referralInput.value.trim())) {
-    isValid.error = true;
-    isValid.message = "Please enter a valid referral.";
-  }
-    return isValid;
-  };
-  
+}
+
+nameInput.addEventListener("input", validateName);
+emailInput.addEventListener("input", validateEmail);
+subjectInput.addEventListener("input", validateSubject);
+messageInput.addEventListener("input", validateMessage);
+
+const handleContactFormSubmission = () => {
   form.addEventListener("submit", async (event: Event) => {
     event.preventDefault();
-    const formData = new FormData(form);
+    if (!isValid.error) {
+      const formData = new FormData(form);
     const jsonData: { [key: string]: any } = {};
     formData.forEach((value, key) => {
       jsonData[key] = value;
@@ -185,11 +199,12 @@ const handleContactFormSubmission = () => {
     } catch (error) {
       throw new Error("an error has occured " + error);
     }
+    }
   }
     )
 }
 
-if(form) document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
+document.addEventListener("DOMContentLoaded", handleContactFormSubmission);
 
 const createObscureDiv = () => {
   const div = document.createElement("div") as HTMLDivElement;
