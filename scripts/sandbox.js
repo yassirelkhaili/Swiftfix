@@ -116,10 +116,28 @@ const nameInput = document.querySelector("#name");
 const emailInput = document.querySelector("#email");
 const messageInput = document.querySelector("#message");
 const subjectInput = document.querySelector("#subject");
+const referralInput = document.querySelector("#referral");
 const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 const nameRegex = /^[A-Za-z\s]{1,10}$/;
 const subjectRegex = /^[A-Za-z0-9\s]{1,50}$/;
 const messageRegex = /^[A-Za-z0-9\s]{1,250}$/;
+const referralRegex = /^[A-Za-z0-9\s]{1,50}$/;
+function validateReferral() {
+    if (!referralInput.value.trim()) {
+        referralInput.style.borderBottomColor = "#094B72";
+    }
+    else if (!referralRegex.test(referralInput.value.trim())) {
+        isValid.error = true;
+        isValid.message = "Please enter a valid referral.";
+        referralInput.style.color = "red";
+        referralInput.style.borderBottomColor = "red";
+    }
+    else {
+        isValid.error = false;
+        referralInput.style.color = "green";
+        referralInput.style.borderBottomColor = "green";
+    }
+}
 function validateName() {
     if (!nameInput.value.trim()) {
         nameInput.style.borderBottomColor = "#094B72";
@@ -188,6 +206,7 @@ nameInput?.addEventListener("input", validateName);
 emailInput?.addEventListener("input", validateEmail);
 subjectInput?.addEventListener("input", validateSubject);
 messageInput?.addEventListener("input", validateMessage);
+referralInput?.addEventListener("input", validateReferral);
 const handleContactFormSubmission = () => {
     form?.addEventListener("submit", async (event) => {
         event.preventDefault();
