@@ -41,7 +41,7 @@ anchor.appendChild(span);
 outerLi.appendChild(anchor);
 const innerUl = document.createElement("ul");
 innerUl.classList.add("nav__group__dropdown");
-const innerLiItems = ["Repaire", "Equipment", "Facility", "Other"];
+const innerLiItems = ["Repair", "Equipment", "Facility", "Other"];
 innerLiItems.forEach(itemText => {
   const innerLi = document.createElement("li");
   const innerAnchor = document.createElement("a");
@@ -92,19 +92,19 @@ const lines = document.querySelectorAll(".line") as NodeListOf<HTMLSpanElement>;
 const btn = document.querySelector(".nav__group__btn") as HTMLAnchorElement;
 const navElements: Array<string> = ["Index", "About", "Service", "Contact"]
 const serviceNavBtn = document.querySelectorAll(".menuservice") as NodeListOf<HTMLLIElement>;
+const dropdownMenu = document.querySelectorAll(".nav__group__dropdown") as NodeListOf<HTMLUListElement>;
 const serviceNavBtnIcon = document.querySelectorAll(".header__dropdown__svg") as NodeListOf<HTMLSpanElement>;
-const dropdownMenu = document.querySelector(".nav__group__dropdown") as HTMLUListElement;
 
-const handleServiceBtnMouseEnter = (burgerDropdown: number) => {
-  serviceNavBtnIcon[burgerDropdown].classList.add("header__dropdown__svg--active");
+const handleServiceBtnMouseEnter = (serviceNavBtnIcon: HTMLSpanElement, dropdownMenu: HTMLUListElement) => {
+  serviceNavBtnIcon.classList.add("header__dropdown__svg--active");
   dropdownMenu.style.display = "flex";
   setTimeout(() => {
     dropdownMenu.classList.add("nav__group__dropdown--active");
   }, 1);
   }
   
-  const handleServiceBtnMouseLeave = (burgerDropdown: number) => {
-    serviceNavBtnIcon[burgerDropdown].classList.remove("header__dropdown__svg--active");
+  const handleServiceBtnMouseLeave = (serviceNavBtnIcon: HTMLSpanElement, dropdownMenu: HTMLUListElement) => {
+    serviceNavBtnIcon.classList.remove("header__dropdown__svg--active");
     dropdownMenu.style.display = "none";
       setTimeout(() => {
         dropdownMenu.classList.remove("nav__group__dropdown--active");
@@ -135,9 +135,11 @@ btn.addEventListener("click", () => {
           }, 200);
         }
       }
+      const serviceNavBtnIcon = document.querySelectorAll(".header__dropdown__svg") as NodeListOf<HTMLSpanElement>;
       const serviceNavBtn = document.querySelectorAll(".menuservice") as NodeListOf<HTMLLIElement>;
-      serviceNavBtn[1].addEventListener("mouseenter", handleServiceBtnMouseEnter.bind(null, 1))
-      serviceNavBtn[1].addEventListener("mouseleave", handleServiceBtnMouseLeave.bind(null, 1))
+      const dropdownMenu = document.querySelectorAll(".nav__group__dropdown") as NodeListOf<HTMLUListElement>;
+      serviceNavBtn[1].addEventListener("mouseenter", handleServiceBtnMouseEnter.bind(null, serviceNavBtnIcon[1], dropdownMenu[1]))
+      serviceNavBtn[1].addEventListener("mouseleave", handleServiceBtnMouseLeave.bind(null, serviceNavBtnIcon[1], dropdownMenu[1]))
     }
 )
 
@@ -397,12 +399,25 @@ document.addEventListener("DOMContentLoaded", handleCarousel);
   headerCloseBtnSearch.addEventListener("click", handleModalClose);
 }
 
-serviceNavBtn[0]?.addEventListener("mouseenter", handleServiceBtnMouseEnter.bind(null, 0));
-serviceNavBtn[0]?.addEventListener("mouseleave", handleServiceBtnMouseLeave.bind(null, 0));
+serviceNavBtn[0]?.addEventListener("mouseenter", handleServiceBtnMouseEnter.bind(null, serviceNavBtnIcon[0], dropdownMenu[0]));
+serviceNavBtn[0]?.addEventListener("mouseleave", handleServiceBtnMouseLeave.bind(null, serviceNavBtnIcon[0], dropdownMenu[0]));
 
+const handleWindowResize = (): void => {
+  if (window.innerWidth >= 800 && parentNode?.contains(burgerMenu)) {
+    lines.forEach((line: HTMLSpanElement, index: number) => {
+      if (index === 0) line.classList.remove("activefirst");
+      if (index === 1) line.classList.remove("hidden");
+      if (index === 2) line.classList.remove("activelast");
+    });
+    burgerMenu.classList.add("hidden");
+    setTimeout(() => {
+      parentNode.removeChild(burgerMenu)
+    }, 200);
+  }
+}
 
-
-
+window.addEventListener("resize", handleWindowResize);
+ 
 
 
 
