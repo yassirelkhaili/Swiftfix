@@ -174,7 +174,7 @@ const handleBlurEffect = (event: Event) => {
 document.addEventListener("click", handleBlurEffect);
 
 //form validation
-const isValid: { error: boolean, message: string } = { error: false, message: "" };
+const isValid: { error: boolean, message: string } = { error: true, message: "" };
 
 const nameInput = document.querySelector("#name") as HTMLInputElement;
 const emailInput = document.querySelector("#email") as HTMLInputElement;
@@ -234,8 +234,8 @@ function validateInput(input: HTMLInputElement, regex: RegExp) {
     }
   } else {
     if (input.nextElementSibling?.classList.contains("form__error__container"))
+      isValid.error = false;
       input.nextSibling?.remove();
-    isValid.error = false;
     input.style.borderBottomColor = "green";
   }
 }
@@ -248,6 +248,23 @@ referralInput?.addEventListener("input", validateInput.bind(null, referralInput,
 
 const handleContactFormSubmission = () => {
   form?.addEventListener("submit", async (event: Event) => {
+    const inputs = document.getElementsByTagName("input") as HTMLCollectionOf<HTMLInputElement>;
+  for (let i = 0; i < inputs.length; i++) {
+    if (inputs[i].value === "" && i != inputs.length - 2) {
+      isValid.error = true;
+      const errorContainer = createErrorContainer() as HTMLDivElement;
+      errorContainer.textContent = inputs[i].id + " is required";
+      inputs[i].style.borderBottomColor = "red";
+      if (inputs[i].parentNode?.querySelectorAll(".form__error__container").length === 0) {
+        if (inputs[i].nextSibling) {
+          inputs[i].parentNode?.insertBefore(errorContainer, inputs[i].nextSibling);
+        } else {
+          errorContainer.textContent = inputs[i].id + " is required";
+          inputs[i].parentNode?.appendChild(errorContainer);
+        }
+      }
+    }
+  }
     event.preventDefault();
     if (!isValid.error) {
     const formData = new FormData(form);

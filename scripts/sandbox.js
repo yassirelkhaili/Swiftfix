@@ -160,7 +160,7 @@ const handleBlurEffect = (event) => {
 };
 document.addEventListener("click", handleBlurEffect);
 //form validation
-const isValid = { error: false, message: "" };
+const isValid = { error: true, message: "" };
 const nameInput = document.querySelector("#name");
 const emailInput = document.querySelector("#email");
 const messageInput = document.querySelector("#message");
@@ -219,8 +219,8 @@ function validateInput(input, regex) {
     }
     else {
         if (input.nextElementSibling?.classList.contains("form__error__container"))
-            input.nextSibling?.remove();
-        isValid.error = false;
+            isValid.error = false;
+        input.nextSibling?.remove();
         input.style.borderBottomColor = "green";
     }
 }
@@ -231,6 +231,24 @@ messageInput?.addEventListener("input", validateInput.bind(null, messageInput, m
 referralInput?.addEventListener("input", validateInput.bind(null, referralInput, referralRegex));
 const handleContactFormSubmission = () => {
     form?.addEventListener("submit", async (event) => {
+        const inputs = document.getElementsByTagName("input");
+        for (let i = 0; i < inputs.length; i++) {
+            if (inputs[i].value === "" && i != inputs.length - 2) {
+                isValid.error = true;
+                const errorContainer = createErrorContainer();
+                errorContainer.textContent = inputs[i].id + " is required";
+                inputs[i].style.borderBottomColor = "red";
+                if (inputs[i].parentNode?.querySelectorAll(".form__error__container").length === 0) {
+                    if (inputs[i].nextSibling) {
+                        inputs[i].parentNode?.insertBefore(errorContainer, inputs[i].nextSibling);
+                    }
+                    else {
+                        errorContainer.textContent = inputs[i].id + " is required";
+                        inputs[i].parentNode?.appendChild(errorContainer);
+                    }
+                }
+            }
+        }
         event.preventDefault();
         if (!isValid.error) {
             const formData = new FormData(form);
