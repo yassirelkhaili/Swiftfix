@@ -188,19 +188,19 @@ function validateInput(input, regex) {
         isValid.error = true;
         switch (input.id) {
             case "name":
-                input.value.trim().length > 50 ? isValid.message = "Name cannot exceed 50 charracters" : "Please Enter a valid name";
+                input.value.trim().length > 50 ? isValid.message = "Name cannot exceed 50 charracters" : isValid.message = "Please Enter a valid name";
                 break;
             case "email":
                 isValid.message = "Please Enter a valid email";
                 break;
             case "subject":
-                input.value.trim().length > 100 ? isValid.message = "subject cannot exceed 100 charracters" : "Please Enter a valid subject";
+                input.value.trim().length > 100 ? isValid.message = "subject cannot exceed 100 charracters" : isValid.message = "Please Enter a valid subject";
                 break;
             case "message":
-                input.value.trim().length > 250 ? isValid.message = "message cannot exceed 250 charracters" : "Please Enter a valid message";
+                input.value.trim().length > 250 ? isValid.message = "message cannot exceed 250 charracters" : isValid.message = "Please Enter a valid message";
                 break;
             case "referral":
-                input.value.trim().length > 60 ? isValid.message = "referral cannot exceed 60 charracters" : "Please Enter a valid referral";
+                input.value.trim().length > 60 ? isValid.message = "referral cannot exceed 60 charracters" : isValid.message = "Please Enter a valid referral";
                 break;
             default:
                 isValid.message = "Please enter a valid input value";
