@@ -24,14 +24,42 @@ const createBurgerMenu = () => {
     burgerMenu.classList.add("nav__group--adjusted", "hidden");
     ul.classList.add("nav__group__items--adjusted");
     for (let index = 0; index < navElements.length; index++) {
-        const anchor = document.createElement("a");
-        const li = document.createElement("li");
-        anchor.classList.add("nav__group__items__list__item__link--adjusted");
-        anchor.href = "./" + navElements[index] + ".html";
-        navElements[index] !== "Index" ? anchor.textContent = navElements[index] : anchor.textContent = "Home";
-        li.className = "nav__group__items__list__item";
-        li.appendChild(anchor);
-        navElementsGroup.push(li);
+        if (index === 2) {
+            const outerLi = document.createElement("li");
+            outerLi.classList.add("nav__group__items__list__item", "menuservice", "nav__group__items__list__item--adjusted");
+            const anchor = document.createElement("a");
+            anchor.classList.add("nav__group__items__list__item__link");
+            anchor.href = "./service.html";
+            anchor.textContent = "Services";
+            const span = document.createElement("span");
+            span.classList.add("header__dropdown__svg");
+            anchor.appendChild(span);
+            outerLi.appendChild(anchor);
+            const innerUl = document.createElement("ul");
+            innerUl.classList.add("nav__group__dropdown");
+            const innerLiItems = ["Repaire", "Equipment", "Facility", "Other"];
+            innerLiItems.forEach(itemText => {
+                const innerLi = document.createElement("li");
+                const innerAnchor = document.createElement("a");
+                innerAnchor.classList.add("nav__group__items__list__item", "nav__group__items__list__item__link");
+                innerAnchor.href = "#";
+                innerAnchor.textContent = itemText;
+                innerLi.appendChild(innerAnchor);
+                innerUl.appendChild(innerLi);
+                navElementsGroup.push(outerLi);
+            });
+            outerLi.appendChild(innerUl);
+        }
+        else {
+            const anchor = document.createElement("a");
+            const li = document.createElement("li");
+            anchor.classList.add("nav__group__items__list__item__link--adjusted");
+            anchor.href = "./" + navElements[index] + ".html";
+            navElements[index] !== "Index" ? anchor.textContent = navElements[index] : anchor.textContent = "Home";
+            li.className = "nav__group__items__list__item";
+            li.appendChild(anchor);
+            navElementsGroup.push(li);
+        }
     }
     navElementsGroup.forEach((element) => ul.appendChild(element));
     burgerMenu.appendChild(ul);
@@ -57,6 +85,23 @@ createBurgerBtn();
 const lines = document.querySelectorAll(".line");
 const btn = document.querySelector(".nav__group__btn");
 const navElements = ["Index", "About", "Service", "Contact"];
+const serviceNavBtn = document.querySelectorAll(".menuservice");
+const serviceNavBtnIcon = document.querySelectorAll(".header__dropdown__svg");
+const dropdownMenu = document.querySelector(".nav__group__dropdown");
+const handleServiceBtnMouseEnter = (burgerDropdown) => {
+    serviceNavBtnIcon[burgerDropdown].classList.add("header__dropdown__svg--active");
+    dropdownMenu.style.display = "flex";
+    setTimeout(() => {
+        dropdownMenu.classList.add("nav__group__dropdown--active");
+    }, 1);
+};
+const handleServiceBtnMouseLeave = (burgerDropdown) => {
+    serviceNavBtnIcon[burgerDropdown].classList.remove("header__dropdown__svg--active");
+    dropdownMenu.style.display = "none";
+    setTimeout(() => {
+        dropdownMenu.classList.remove("nav__group__dropdown--active");
+    }, 1);
+};
 //create burger menu
 const burgerMenu = createBurgerMenu();
 btn.addEventListener("click", () => {
@@ -82,6 +127,9 @@ btn.addEventListener("click", () => {
             }, 200);
         }
     }
+    const serviceNavBtn = document.querySelectorAll(".menuservice");
+    serviceNavBtn[1].addEventListener("mouseenter", handleServiceBtnMouseEnter.bind(null, 1));
+    serviceNavBtn[1].addEventListener("mouseleave", handleServiceBtnMouseLeave.bind(null, 1));
 });
 //accordion click event
 const container = document.querySelector(".faq__column__items");
@@ -131,6 +179,8 @@ function validateInput(input, regex) {
     const errorContainer = createErrorContainer();
     if (!input.value.trim()) {
         input.style.borderBottomColor = "#094B72";
+        if (input.nextElementSibling?.classList.contains("form__error__container"))
+            input.nextSibling?.remove();
     }
     else if (!regex.test(input.value.trim())) {
         isValid.error = true;
@@ -312,22 +362,5 @@ if (modal && searchBtn) {
     obscure.addEventListener("click", handleModalClose);
     headerCloseBtnSearch.addEventListener("click", handleModalClose);
 }
-const serviceNavBtn = document.getElementById("menuservice");
-const serviceNavBtnIcon = document.querySelector(".header__dropdown__svg");
-const dropdownMenu = document.querySelector(".nav__group__dropdown");
-const handleServiceBtnMouseEnter = () => {
-    serviceNavBtnIcon.classList.add("header__dropdown__svg--active");
-    dropdownMenu.style.display = "flex";
-    setTimeout(() => {
-        dropdownMenu.classList.add("nav__group__dropdown--active");
-    }, 1);
-};
-const handleServiceBtnMouseLeave = () => {
-    serviceNavBtnIcon.classList.remove("header__dropdown__svg--active");
-    dropdownMenu.style.display = "none";
-    setTimeout(() => {
-        dropdownMenu.classList.remove("nav__group__dropdown--active");
-    }, 1);
-};
-serviceNavBtn?.addEventListener("mouseenter", handleServiceBtnMouseEnter);
-serviceNavBtn?.addEventListener("mouseleave", handleServiceBtnMouseLeave);
+serviceNavBtn[0]?.addEventListener("mouseenter", handleServiceBtnMouseEnter.bind(null, 0));
+serviceNavBtn[0]?.addEventListener("mouseleave", handleServiceBtnMouseLeave.bind(null, 0));
