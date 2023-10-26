@@ -3,7 +3,6 @@ import * as config from "../config/config.js";
 const navGroupBurgerDiv = document.createElement('div');
 const parentNode = document.querySelector("header");
 const navGroupBtn = document.createElement('a');
-const navChild = document.getElementById("search");
 const navGroup = document.querySelector(".nav__group");
 const linesArr = new Array;
 const groups = document.querySelectorAll(".faq__column__items__item__group");
@@ -128,103 +127,56 @@ const createErrorContainer = () => {
     errorContainer.classList.add("form__error__container");
     return errorContainer;
 };
-function validateReferral() {
+function validateInput(input, regex) {
     const errorContainer = createErrorContainer();
-    if (!referralInput.value.trim()) {
-        referralInput.style.borderBottomColor = "#094B72";
+    if (!input.value.trim()) {
+        input.style.borderBottomColor = "#094B72";
     }
-    else if (!referralRegex.test(referralInput.value.trim())) {
+    else if (!regex.test(input.value.trim())) {
         isValid.error = true;
-        referralInput.value.trim().length > 60 ? isValid.message = "Referral cannot exceed 60 charracters" : isValid.message = "Please enter a valid referral.";
-        referralInput.style.color = "red";
-        referralInput.style.borderBottomColor = "red";
+        switch (input.id) {
+            case "name":
+                input.value.trim().length > 50 ? isValid.message = "Name cannot exceed 50 charracters" : "Please Enter a valid name";
+                break;
+            case "email":
+                isValid.message = "Please Enter a valid email";
+                break;
+            case "subject":
+                input.value.trim().length > 100 ? isValid.message = "subject cannot exceed 100 charracters" : "Please Enter a valid subject";
+                break;
+            case "message":
+                input.value.trim().length > 250 ? isValid.message = "message cannot exceed 250 charracters" : "Please Enter a valid message";
+                break;
+            case "referral":
+                input.value.trim().length > 60 ? isValid.message = "referral cannot exceed 60 charracters" : "Please Enter a valid referral";
+                break;
+            default:
+                isValid.message = "Please enter a valid input value";
+                break;
+        }
+        input.style.borderBottomColor = "red";
         errorContainer.textContent = isValid.message;
-        if (referralInput.parentNode?.querySelectorAll(".form__error__container").length === 0) {
-            if (referralInput.nextSibling) {
-                referralInput.parentNode?.insertBefore(errorContainer, referralInput.nextSibling);
+        if (input.parentNode?.querySelectorAll(".form__error__container").length === 0) {
+            if (input.nextSibling) {
+                input.parentNode?.insertBefore(errorContainer, input.nextSibling);
             }
             else {
-                referralInput.parentNode?.appendChild(errorContainer);
+                input.parentNode?.appendChild(errorContainer);
             }
         }
     }
     else {
-        if (referralInput.nextElementSibling?.classList.contains("form__error__container"))
-            referralInput.nextSibling?.remove();
+        if (input.nextElementSibling?.classList.contains("form__error__container"))
+            input.nextSibling?.remove();
         isValid.error = false;
-        referralInput.style.color = "green";
-        referralInput.style.borderBottomColor = "green";
+        input.style.borderBottomColor = "green";
     }
 }
-function validateName() {
-    if (!nameInput.value.trim()) {
-        nameInput.style.borderBottomColor = "#094B72";
-    }
-    else if (!nameRegex.test(nameInput.value.trim())) {
-        isValid.error = true;
-        isValid.message = "Please enter a valid name.";
-        nameInput.style.color = "red";
-        nameInput.style.borderBottomColor = "red";
-    }
-    else {
-        isValid.error = false;
-        nameInput.style.color = "green";
-        nameInput.style.borderBottomColor = "green";
-    }
-}
-function validateEmail() {
-    if (!emailInput.value.trim()) {
-        emailInput.style.borderBottomColor = "#094B72";
-    }
-    else if (!emailRegex.test(emailInput.value.trim())) {
-        isValid.error = true;
-        isValid.message = "Please enter a valid email.";
-        emailInput.style.color = "red";
-        emailInput.style.borderBottomColor = "red";
-    }
-    else {
-        isValid.error = false;
-        emailInput.style.color = "green";
-        emailInput.style.borderBottomColor = "green";
-    }
-}
-function validateSubject() {
-    if (!subjectInput.value.trim()) {
-        subjectInput.style.borderBottomColor = "#094B72";
-    }
-    else if (!subjectRegex.test(subjectInput.value.trim())) {
-        isValid.error = true;
-        isValid.message = "Please enter a valid Subject.";
-        subjectInput.style.color = "red";
-        subjectInput.style.borderBottomColor = "red";
-    }
-    else {
-        isValid.error = false;
-        subjectInput.style.color = "green";
-        subjectInput.style.borderBottomColor = "green";
-    }
-}
-function validateMessage() {
-    if (!messageInput.value.trim()) {
-        messageInput.style.borderBottomColor = "#094B72";
-    }
-    else if (!messageRegex.test(messageInput.value.trim())) {
-        isValid.error = true;
-        isValid.message = "Please enter a valid message.";
-        messageInput.style.color = "red";
-        messageInput.style.borderBottomColor = "red";
-    }
-    else {
-        isValid.error = false;
-        messageInput.style.color = "green";
-        messageInput.style.borderBottomColor = "green";
-    }
-}
-nameInput?.addEventListener("input", validateName);
-emailInput?.addEventListener("input", validateEmail);
-subjectInput?.addEventListener("input", validateSubject);
-messageInput?.addEventListener("input", validateMessage);
-referralInput?.addEventListener("input", validateReferral);
+nameInput?.addEventListener("input", validateInput.bind(null, nameInput, nameRegex));
+emailInput?.addEventListener("input", validateInput.bind(null, emailInput, emailRegex));
+subjectInput?.addEventListener("input", validateInput.bind(null, subjectInput, subjectRegex));
+messageInput?.addEventListener("input", validateInput.bind(null, messageInput, messageRegex));
+referralInput?.addEventListener("input", validateInput.bind(null, referralInput, referralRegex));
 const handleContactFormSubmission = () => {
     form?.addEventListener("submit", async (event) => {
         event.preventDefault();

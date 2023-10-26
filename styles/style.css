@@ -1055,7 +1055,8 @@ caret-color: var(--main-color);
     color: red;
     position: absolute;
     font-size: 15px;
-    top: 4.5rem;
+    top: 4.2rem;
+    z-index: 10;
 }
 
 .header__dropdown__svg--active {
