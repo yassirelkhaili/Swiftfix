@@ -145,6 +145,13 @@ function handleAccordionClickEvent(event) {
             if (accordion.lastElementChild) {
                 accordion.lastElementChild.classList.toggle("faq__column__items__item__btn--active");
                 accordion.nextElementSibling && accordion.nextElementSibling.classList.toggle("faq__column__items__item__description--active");
+                //close open accordion items
+                for (let group of groups) {
+                    if (!group.nextElementSibling?.classList.contains("faq__column__items__item__description--active") && group !== accordion) {
+                        group.nextElementSibling?.classList.add("faq__column__items__item__description--active");
+                        group.lastElementChild?.classList.remove("faq__column__items__item__btn--active");
+                    }
+                }
             }
         }
     }
@@ -229,14 +236,25 @@ emailInput?.addEventListener("input", validateInput.bind(null, emailInput, email
 subjectInput?.addEventListener("input", validateInput.bind(null, subjectInput, subjectRegex));
 messageInput?.addEventListener("input", validateInput.bind(null, messageInput, messageRegex));
 referralInput?.addEventListener("input", validateInput.bind(null, referralInput, referralRegex));
+const inputs = document.getElementsByTagName("input");
+const terms = inputs[inputs.length - 1];
+const handleTermsChange = () => {
+    if (terms.checked && terms.nextElementSibling?.classList.contains("form__error__container")) {
+        isValid.error = false;
+        terms.nextSibling?.remove();
+    }
+};
+terms.addEventListener("change", handleTermsChange);
 const handleContactFormSubmission = () => {
     form?.addEventListener("submit", async (event) => {
-        const inputs = document.getElementsByTagName("input");
+        event.preventDefault();
         for (let i = 0; i < inputs.length; i++) {
-            if (inputs[i].value === "" && i != inputs.length - 2) {
+            if ((inputs[i].value === "" && i !== inputs.length - 2) || i === inputs.length - 1) {
                 isValid.error = true;
                 const errorContainer = createErrorContainer();
                 errorContainer.textContent = inputs[i].id + " is required";
+                if (i === inputs.length - 1)
+                    errorContainer.style.top = "3.5rem";
                 inputs[i].style.borderBottomColor = "red";
                 if (inputs[i].parentNode?.querySelectorAll(".form__error__container").length === 0) {
                     if (inputs[i].nextSibling) {
@@ -249,7 +267,6 @@ const handleContactFormSubmission = () => {
                 }
             }
         }
-        event.preventDefault();
         if (!isValid.error) {
             const formData = new FormData(form);
             const jsonData = {};

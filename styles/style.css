@@ -895,7 +895,6 @@ caret-color: var(--main-color);
     flex-direction: column;
     gap: none;
     max-width: 50rem;
-    border: 1px solid var(--grey--accordion);
     border-radius: 5px;
   }
 
@@ -908,19 +907,10 @@ caret-color: var(--main-color);
     border-radius: 5px;
   }
 
-  .faq__column__items__item {
-    border-bottom: 1px solid var(--grey--accordion);
-  }
-
-  .faq__column__items__item__description {
-    padding: 1rem 1rem;
-    overflow: hidden;
-    transition: 0.2s ease-in-out;
-  }
-
   .faq__column__items__item__description--active {
     height: 0px;
-    padding: 0px;
+    padding-top: 0rem !important;
+    padding-bottom: 0rem !important;
     transition: 0.2s ease-in-out;
   }
 
@@ -929,7 +919,7 @@ caret-color: var(--main-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--grey--accordion);
+    border-bottom: 3px solid var(--main-color);
     padding: 1rem 1.4rem;
     cursor: pointer;
   }
@@ -942,20 +932,13 @@ caret-color: var(--main-color);
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23212529'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
     background-repeat: no-repeat;
     background-size: 1.25rem;
-    transition: transform 0.2s ease-in-out;
+    transition: transform 0.3s ease-in-out;
     cursor: pointer;
 }
 
 .faq__column__items__item__btn--active {
     transform: rotate(180deg);
     background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%230c63e4'%3e%3cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3e%3c/svg%3e");
-}
-
-.faq__column__items__item__group--active {
-    background-color: #E7F1FF;
-    transition: .1s ease-in-out;
-    outline: 5px solid #b9d6ff;
-    border-radius: 3px;
 }
 
 .seachinput {
@@ -1151,6 +1134,11 @@ caret-color: var(--main-color);
     font-family: "Poppins", sans-serif;
     font-size: 14px;
     color: var(--default-text);
+    padding: 1rem 1rem;
+    overflow: hidden;
+    transition: 0.3s ease-in-out;
+    display: flex;
+    justify-content: center;
 }
 
 .nav__group__search {

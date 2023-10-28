@@ -1,4 +1,9 @@
 {
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "npm run typescript:start && nodemon ./middleware/script.js",
+    "typescript:start": "tsc --watch"
+  },
   "type": "module",
   "dependencies": {
     "nodemailer": "^6.9.6"

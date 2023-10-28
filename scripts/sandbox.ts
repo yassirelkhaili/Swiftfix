@@ -156,6 +156,13 @@ function handleAccordionClickEvent(event: Event) {
       if (accordion.lastElementChild) {
         accordion.lastElementChild.classList.toggle("faq__column__items__item__btn--active");
         accordion.nextElementSibling && accordion.nextElementSibling.classList.toggle("faq__column__items__item__description--active");
+        //close open accordion items
+        for (let group of groups) {
+          if (!group.nextElementSibling?.classList.contains("faq__column__items__item__description--active") && group !== accordion) {
+            group.nextElementSibling?.classList.add("faq__column__items__item__description--active");
+            group.lastElementChild?.classList.remove("faq__column__items__item__btn--active");
+          }
+        }
       }
     }
   }
@@ -246,14 +253,27 @@ subjectInput?.addEventListener("input", validateInput.bind(null, subjectInput, s
 messageInput?.addEventListener("input", validateInput.bind(null, messageInput, messageRegex));
 referralInput?.addEventListener("input", validateInput.bind(null, referralInput, referralRegex));
 
+const inputs = document.getElementsByTagName("input") as HTMLCollectionOf<HTMLInputElement>
+const terms = inputs[inputs.length - 1] as HTMLInputElement;
+
+const handleTermsChange = () => {
+  if (terms.checked && terms.nextElementSibling?.classList.contains("form__error__container")) {
+    isValid.error = false;
+    terms.nextSibling?.remove();
+  }
+}
+
+terms.addEventListener("change", handleTermsChange)
+
 const handleContactFormSubmission = () => {
   form?.addEventListener("submit", async (event: Event) => {
-    const inputs = document.getElementsByTagName("input") as HTMLCollectionOf<HTMLInputElement>;
+    event.preventDefault();
   for (let i = 0; i < inputs.length; i++) {
-    if (inputs[i].value === "" && i != inputs.length - 2) {
+    if ((inputs[i].value === "" && i !== inputs.length - 2) || i === inputs.length - 1) {
       isValid.error = true;
       const errorContainer = createErrorContainer() as HTMLDivElement;
       errorContainer.textContent = inputs[i].id + " is required";
+      if (i === inputs.length - 1) errorContainer.style.top = "3.5rem";
       inputs[i].style.borderBottomColor = "red";
       if (inputs[i].parentNode?.querySelectorAll(".form__error__container").length === 0) {
         if (inputs[i].nextSibling) {
@@ -265,7 +285,6 @@ const handleContactFormSubmission = () => {
       }
     }
   }
-    event.preventDefault();
     if (!isValid.error) {
     const formData = new FormData(form);
     const jsonData: { [key: string]: any } = {};
