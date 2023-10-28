@@ -265,16 +265,51 @@ const handleTermsChange = () => {
 
 terms.addEventListener("change", handleTermsChange)
 
+const submitButton = document.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+const toggleSpinner = () => {
+  const loader = document.querySelector(".loader") as HTMLSpanElement;
+  const svg = submitButton.querySelector("svg") as SVGSVGElement;
+  svg && svg.classList.add("hidden--accordion");
+  if(loader) loader.classList.toggle("hidden--accordion");
+}
+
+const disableSubmitButton = () => {
+  if (submitButton) {
+    submitButton.disabled = true;
+    submitButton.style.backgroundColor = "grey";
+  }
+}
+
 const handleContactFormSubmission = () => {
   form?.addEventListener("submit", async (event: Event) => {
     event.preventDefault();
-  for (let i = 0; i < inputs.length; i++) {
-    if ((inputs[i].value === "" && i !== inputs.length - 2) || i === inputs.length - 1) {
+  if (!terms.checked) {
+    isValid.error = true;
+      const errorContainer = createErrorContainer() as HTMLDivElement;
+      errorContainer.textContent = terms.id + " are required";
+      errorContainer.style.top = "3.5rem";
+      if (terms.parentNode?.querySelectorAll(".form__error__container").length === 0) {
+        if (terms.nextSibling) {
+          terms.parentNode?.insertBefore(errorContainer, terms.nextSibling);
+        } else {
+          errorContainer.textContent = terms.id + " are required";
+          terms.parentNode?.appendChild(errorContainer);
+        }
+      }
+  }
+  validateInput(nameInput, nameRegex);
+  validateInput(emailInput, emailRegex);
+  validateInput(subjectInput, subjectRegex);
+  validateInput(messageInput, messageRegex);
+  validateInput(referralInput, referralRegex);
+  for (let i = 1; i < inputs.length - 2; i++) {
+    if (inputs[i].value === "") {
       isValid.error = true;
       const errorContainer = createErrorContainer() as HTMLDivElement;
       errorContainer.textContent = inputs[i].id + " is required";
       if (i === inputs.length - 1) errorContainer.style.top = "3.5rem";
-      inputs[i].style.borderBottomColor = "red";
+      if(i !== inputs.length - 1) inputs[i].style.borderBottomColor = "red";
       if (inputs[i].parentNode?.querySelectorAll(".form__error__container").length === 0) {
         if (inputs[i].nextSibling) {
           inputs[i].parentNode?.insertBefore(errorContainer, inputs[i].nextSibling);
@@ -286,6 +321,8 @@ const handleContactFormSubmission = () => {
     }
   }
     if (!isValid.error) {
+    toggleSpinner();
+    disableSubmitButton();
     const formData = new FormData(form);
     const jsonData: { [key: string]: any } = {};
     formData.forEach((value, key) => {
@@ -307,6 +344,8 @@ const handleContactFormSubmission = () => {
     } catch (error) {
       throw new Error("an error has occured " + error);
     }
+    toggleSpinner();
+    submitButton.textContent = "Message sent";
     }
   }
     )
