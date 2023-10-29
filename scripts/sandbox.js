@@ -282,7 +282,9 @@ const disableSubmitButton = () => {
 const toast = document.querySelector(".contact__toast");
 const toastBtn = document.querySelector(".contact__toast__button");
 const handleToastBtn = (event) => {
-    event.type === "mouseenter" ? toastBtn?.classList.add("contact__toast__btn--show") : toastBtn.classList.remove("contact__toast__btn--show");
+    event.type === "mouseenter"
+        ? toastBtn?.classList.add("contact__toast__btn--show")
+        : toastBtn.classList.remove("contact__toast__btn--show");
 };
 toast.addEventListener("mouseleave", handleToastBtn);
 toast.addEventListener("mouseenter", handleToastBtn);
@@ -292,7 +294,9 @@ const handleToastBtnClick = () => {
 };
 window.addEventListener("click", (event) => {
     const target = event.target;
-    if (toast.classList.contains("contact__toast--active") && target !== toast)
+    if (toast.classList.contains("contact__toast--active") &&
+        target !== toast &&
+        !toast.contains(target))
         handleToastBtnClick();
 });
 toastBtn.addEventListener("click", handleToastBtnClick);
@@ -363,7 +367,6 @@ const handleContactFormSubmission = () => {
                 });
                 if (response.ok) {
                     const responseData = await response.json();
-                    console.log(responseData);
                     displayToast(responseData);
                 }
                 else {
