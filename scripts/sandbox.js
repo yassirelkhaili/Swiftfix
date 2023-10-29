@@ -279,6 +279,29 @@ const disableSubmitButton = () => {
         submitButton.style.backgroundColor = "grey";
     }
 };
+const toast = document.querySelector(".contact__toast");
+const toastBtn = document.querySelector(".contact__toast__button");
+const handleToastBtn = (event) => {
+    event.type === "mouseenter" ? toastBtn?.classList.add("contact__toast__btn--show") : toastBtn.classList.remove("contact__toast__btn--show");
+};
+toast.addEventListener("mouseleave", handleToastBtn);
+toast.addEventListener("mouseenter", handleToastBtn);
+const handleToastBtnClick = () => {
+    const toastHeight = toast.offsetHeight;
+    toast.style.transform = `translateY(${toastHeight + 20}px)`;
+};
+window.addEventListener("click", (event) => {
+    const target = event.target;
+    if (toast.classList.contains("contact__toast--active") && target !== toast)
+        handleToastBtnClick();
+});
+toastBtn.addEventListener("click", handleToastBtnClick);
+const displayToast = (data) => {
+    const toastContent = document.querySelector(".toast__content__code");
+    toast.classList.add("contact__toast--active");
+    const displayData = JSON.stringify(data, null, 2);
+    toastContent.textContent = displayData;
+};
 const handleContactFormSubmission = () => {
     form?.addEventListener("submit", async (event) => {
         event.preventDefault();
@@ -341,6 +364,7 @@ const handleContactFormSubmission = () => {
                 if (response.ok) {
                     const responseData = await response.json();
                     console.log(responseData);
+                    displayToast(responseData);
                 }
                 else {
                     console.error("there was an error");

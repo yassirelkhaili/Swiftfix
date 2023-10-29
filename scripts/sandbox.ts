@@ -382,6 +382,34 @@ const disableSubmitButton = () => {
   }
 };
 
+const toast = document.querySelector(".contact__toast") as HTMLDivElement;
+const toastBtn = document.querySelector(".contact__toast__button") as HTMLButtonElement;
+
+const handleToastBtn = (event: MouseEvent) => {
+  event.type === "mouseenter" ? toastBtn?.classList.add("contact__toast__btn--show") : toastBtn.classList.remove("contact__toast__btn--show");
+}
+toast.addEventListener("mouseleave", handleToastBtn);
+toast.addEventListener("mouseenter", handleToastBtn);
+
+const handleToastBtnClick = () => {
+  const toastHeight = toast.offsetHeight;
+  toast.style.transform = `translateY(${toastHeight + 20}px)`;
+}
+
+window.addEventListener("click", (event: MouseEvent) => {
+  const target = event.target as HTMLElement;
+  if (toast.classList.contains("contact__toast--active") && target !== toast) handleToastBtnClick();
+})
+
+toastBtn.addEventListener("click", handleToastBtnClick)
+
+const displayToast = (data: JSON) => {
+  const toastContent = document.querySelector(".toast__content__code") as HTMLElement;
+  toast.classList.add("contact__toast--active");
+  const displayData: string = JSON.stringify(data, null, 2);
+  toastContent.textContent = displayData;
+}
+
 const handleContactFormSubmission = () => {
   form?.addEventListener("submit", async (event: Event) => {
     event.preventDefault();
@@ -447,6 +475,7 @@ const handleContactFormSubmission = () => {
         if (response.ok) {
           const responseData: JSON = await response.json();
           console.log(responseData);
+          displayToast(responseData);
         } else {
           console.error("there was an error");
         }
