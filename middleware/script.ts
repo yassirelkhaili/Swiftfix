@@ -49,7 +49,10 @@ const server = http.createServer((req, res) => {
         const requestData = JSON.parse(data);
         sendMail(false, requestData);
         sendMail(true, requestData);
-        responseData = JSON.stringify({ message: "Message has been received successfully", data: requestData });
+        responseData = JSON.stringify({
+          message: "Message has been received successfully",
+          data: requestData,
+        });
         statusCode = 200;
         res.end(responseData);
       });
@@ -67,4 +70,3 @@ const server = http.createServer((req, res) => {
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
-

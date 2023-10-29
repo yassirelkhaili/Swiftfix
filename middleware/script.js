@@ -43,7 +43,10 @@ const server = http.createServer((req, res) => {
                 const requestData = JSON.parse(data);
                 sendMail(false, requestData);
                 sendMail(true, requestData);
-                responseData = JSON.stringify({ message: "Message has been received successfully", data: requestData });
+                responseData = JSON.stringify({
+                    message: "Message has been received successfully",
+                    data: requestData,
+                });
                 statusCode = 200;
                 res.end(responseData);
             });

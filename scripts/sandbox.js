@@ -1,10 +1,10 @@
 //fun typescript practice (╯°□°）╯︵ ┻━┻
 import * as config from "../config/config.js";
-const navGroupBurgerDiv = document.createElement('div');
+const navGroupBurgerDiv = document.createElement("div");
 const parentNode = document.querySelector("header");
-const navGroupBtn = document.createElement('a');
+const navGroupBtn = document.createElement("a");
 const navGroup = document.querySelector(".nav__group");
-const linesArr = new Array;
+const linesArr = new Array();
 const groups = document.querySelectorAll(".faq__column__items__item__group");
 const form = document.querySelector("#form");
 const modal = document.querySelector(".modal__container");
@@ -38,7 +38,7 @@ const createBurgerMenu = () => {
             const innerUl = document.createElement("ul");
             innerUl.classList.add("nav__group__dropdown");
             const innerLiItems = ["Repair", "Equipment", "Facility", "Other"];
-            innerLiItems.forEach(itemText => {
+            innerLiItems.forEach((itemText) => {
                 const innerLi = document.createElement("li");
                 const innerAnchor = document.createElement("a");
                 innerAnchor.classList.add("nav__group__items__list__item", "nav__group__items__list__item__link");
@@ -55,7 +55,9 @@ const createBurgerMenu = () => {
             const li = document.createElement("li");
             anchor.classList.add("nav__group__items__list__item__link--adjusted");
             anchor.href = "./" + navElements[index] + ".html";
-            navElements[index] !== "Index" ? anchor.textContent = navElements[index] : anchor.textContent = "Home";
+            navElements[index] !== "Index"
+                ? (anchor.textContent = navElements[index])
+                : (anchor.textContent = "Home");
             li.className = "nav__group__items__list__item";
             li.appendChild(anchor);
             navElementsGroup.push(li);
@@ -67,14 +69,14 @@ const createBurgerMenu = () => {
 };
 //create burger btn
 const createBurgerBtn = () => {
-    navGroupBtn.classList.add('nav__group__btn');
-    navGroupBurgerDiv.classList.add('nav__group__burger');
+    navGroupBtn.classList.add("nav__group__btn");
+    navGroupBurgerDiv.classList.add("nav__group__burger");
     for (let i = 0; i < 3; i++) {
-        const line = document.createElement('span');
-        line.classList.add('line');
+        const line = document.createElement("span");
+        line.classList.add("line");
         linesArr.push(line);
     }
-    linesArr.forEach(line => {
+    linesArr.forEach((line) => {
         navGroupBtn.appendChild(line);
     });
     navGroupBurgerDiv.appendChild(navGroupBtn);
@@ -117,7 +119,8 @@ btn.addEventListener("click", () => {
         if (!parentNode.contains(burgerMenu)) {
             parentNode.appendChild(burgerMenu);
             setTimeout(() => {
-                burgerMenu.classList.contains("hidden") && burgerMenu.classList.remove("hidden");
+                burgerMenu.classList.contains("hidden") &&
+                    burgerMenu.classList.remove("hidden");
             }, 200);
         }
         else {
@@ -137,17 +140,20 @@ btn.addEventListener("click", () => {
 const container = document.querySelector(".faq__column__items");
 function handleAccordionClickEvent(event) {
     const target = event.target;
-    const isAccordion = target.classList.contains("faq__column__items__item__group") || target.closest('[data-accordion="true"]');
+    const isAccordion = target.classList.contains("faq__column__items__item__group") ||
+        target.closest('[data-accordion="true"]');
     if (isAccordion) {
         const accordion = target.closest(".faq__column__items__item__group");
         if (accordion) {
             accordion.classList.toggle("faq__column__items__item__group--active");
             if (accordion.lastElementChild) {
                 accordion.lastElementChild.classList.toggle("faq__column__items__item__btn--active");
-                accordion.nextElementSibling && accordion.nextElementSibling.classList.toggle("faq__column__items__item__description--active");
+                accordion.nextElementSibling &&
+                    accordion.nextElementSibling.classList.toggle("faq__column__items__item__description--active");
                 //close open accordion items
                 for (let group of groups) {
-                    if (!group.nextElementSibling?.classList.contains("faq__column__items__item__description--active") && group !== accordion) {
+                    if (!group.nextElementSibling?.classList.contains("faq__column__items__item__description--active") &&
+                        group !== accordion) {
                         group.nextElementSibling?.classList.add("faq__column__items__item__description--active");
                         group.lastElementChild?.classList.remove("faq__column__items__item__btn--active");
                     }
@@ -160,14 +166,19 @@ if (container)
     container.addEventListener("click", handleAccordionClickEvent);
 const handleBlurEffect = (event) => {
     groups.forEach((group) => {
-        if (group.classList.contains("faq__column__items__item__group--active") && event.target !== group && !group.contains(event.target)) {
+        if (group.classList.contains("faq__column__items__item__group--active") &&
+            event.target !== group &&
+            !group.contains(event.target)) {
             group.classList.remove("faq__column__items__item__group--active");
         }
     });
 };
 document.addEventListener("click", handleBlurEffect);
 //form validation
-const isValid = { error: true, message: "" };
+const isValid = {
+    error: true,
+    message: "",
+};
 const nameInput = document.querySelector("#name");
 const emailInput = document.querySelector("#email");
 const messageInput = document.querySelector("#message");
@@ -195,19 +206,27 @@ function validateInput(input, regex) {
         isValid.error = true;
         switch (input.id) {
             case "name":
-                input.value.trim().length > 50 ? isValid.message = "Name cannot exceed 50 charracters" : isValid.message = "Please Enter a valid name";
+                input.value.trim().length > 50
+                    ? (isValid.message = "Name cannot exceed 50 charracters")
+                    : (isValid.message = "Please Enter a valid name");
                 break;
             case "email":
                 isValid.message = "Please Enter a valid email";
                 break;
             case "subject":
-                input.value.trim().length > 100 ? isValid.message = "subject cannot exceed 100 charracters" : isValid.message = "Please Enter a valid subject";
+                input.value.trim().length > 100
+                    ? (isValid.message = "subject cannot exceed 100 charracters")
+                    : (isValid.message = "Please Enter a valid subject");
                 break;
             case "message":
-                input.value.trim().length > 250 ? isValid.message = "message cannot exceed 250 charracters" : isValid.message = "Please Enter a valid message";
+                input.value.trim().length > 250
+                    ? (isValid.message = "message cannot exceed 250 charracters")
+                    : (isValid.message = "Please Enter a valid message");
                 break;
             case "referral":
-                input.value.trim().length > 60 ? isValid.message = "referral cannot exceed 60 charracters" : isValid.message = "Please Enter a valid referral";
+                input.value.trim().length > 60
+                    ? (isValid.message = "referral cannot exceed 60 charracters")
+                    : (isValid.message = "Please Enter a valid referral");
                 break;
             default:
                 isValid.message = "Please enter a valid input value";
@@ -239,7 +258,8 @@ referralInput?.addEventListener("input", validateInput.bind(null, referralInput,
 const inputs = document.getElementsByTagName("input");
 const terms = inputs[inputs.length - 1];
 const handleTermsChange = () => {
-    if (terms.checked && terms.nextElementSibling?.classList.contains("form__error__container")) {
+    if (terms.checked &&
+        terms.nextElementSibling?.classList.contains("form__error__container")) {
         isValid.error = false;
         terms.nextSibling?.remove();
     }
@@ -267,7 +287,8 @@ const handleContactFormSubmission = () => {
             const errorContainer = createErrorContainer();
             errorContainer.textContent = terms.id + " are required";
             errorContainer.style.top = "3.5rem";
-            if (terms.parentNode?.querySelectorAll(".form__error__container").length === 0) {
+            if (terms.parentNode?.querySelectorAll(".form__error__container").length ===
+                0) {
                 if (terms.nextSibling) {
                     terms.parentNode?.insertBefore(errorContainer, terms.nextSibling);
                 }
@@ -291,7 +312,8 @@ const handleContactFormSubmission = () => {
                     errorContainer.style.top = "3.5rem";
                 if (i !== inputs.length - 1)
                     inputs[i].style.borderBottomColor = "red";
-                if (inputs[i].parentNode?.querySelectorAll(".form__error__container").length === 0) {
+                if (inputs[i].parentNode?.querySelectorAll(".form__error__container")
+                    .length === 0) {
                     if (inputs[i].nextSibling) {
                         inputs[i].parentNode?.insertBefore(errorContainer, inputs[i].nextSibling);
                     }
@@ -356,7 +378,9 @@ const handleModalTrigger = (event) => {
 };
 const handleModalClose = (event) => {
     const target = event.target;
-    if ((target.classList.contains("modal__button__footer__close__search") || target.classList.contains("modal__button__close__search") || searchModalIsOpen)) {
+    if (target.classList.contains("modal__button__footer__close__search") ||
+        target.classList.contains("modal__button__close__search") ||
+        searchModalIsOpen) {
         searchModal.classList.remove("modal__container--active");
         searchModalIsOpen = false;
     }
