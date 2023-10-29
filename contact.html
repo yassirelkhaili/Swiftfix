@@ -24,6 +24,7 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap"
       rel="stylesheet"
     />
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
   </head>
   <body>
     <header>
@@ -275,7 +276,8 @@
                 ></label
               >
             </div>
-            <button type="submit" class="questions__link--adjusted" style="display: flex; justify-content: center; align-items: center;">
+            <div class="g-recaptcha" data-sitekey="6LcFYtwoAAAAAG7QQttC9MHh_a0kl5iZEUKLAoTO"></div>
+            <button type="submit" class="questions__link--adjusted" style="display: flex; justify-content: center; align-items: center; cursor: pointer;">
               Send enquiry
               <svg
                 class="btn__svg"

@@ -286,20 +286,22 @@ const handleToastBtn = (event) => {
         ? toastBtn?.classList.add("contact__toast__btn--show")
         : toastBtn.classList.remove("contact__toast__btn--show");
 };
-toast.addEventListener("mouseleave", handleToastBtn);
-toast.addEventListener("mouseenter", handleToastBtn);
+toast && toast.addEventListener("mouseleave", handleToastBtn);
+toast && toast.addEventListener("mouseenter", handleToastBtn);
 const handleToastBtnClick = () => {
     const toastHeight = toast.offsetHeight;
     toast.style.transform = `translateY(${toastHeight + 20}px)`;
 };
 window.addEventListener("click", (event) => {
     const target = event.target;
-    if (toast.classList.contains("contact__toast--active") &&
-        target !== toast &&
-        !toast.contains(target))
-        handleToastBtnClick();
+    if (toast) {
+        if (toast.classList.contains("contact__toast--active") &&
+            target !== toast &&
+            !toast.contains(target))
+            handleToastBtnClick();
+    }
 });
-toastBtn.addEventListener("click", handleToastBtnClick);
+toastBtn && toastBtn.addEventListener("click", handleToastBtnClick);
 const displayToast = (data) => {
     const toastContent = document.querySelector(".toast__content__code");
     toast.classList.add("contact__toast--active");
@@ -368,9 +370,11 @@ const handleContactFormSubmission = () => {
                 if (response.ok) {
                     const responseData = await response.json();
                     displayToast(responseData);
+                    console.log(response);
                 }
                 else {
                     console.error("there was an error");
+                    console.log(response);
                 }
             }
             catch (error) {
