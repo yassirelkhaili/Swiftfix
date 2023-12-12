@@ -3,6 +3,8 @@ import "dotenv/config";
 import { createTransport } from "nodemailer";
 import fetch from "node-fetch";
 
+console.log("Hello World")
+
 const verifyCaptcha = async (requestData: any): Promise<boolean> => {
   try {
     const response = await fetch(

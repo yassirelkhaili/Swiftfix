@@ -2,6 +2,7 @@ import * as http from "http";
 import "dotenv/config";
 import { createTransport } from "nodemailer";
 import fetch from "node-fetch";
+console.log("Hello World");
 const verifyCaptcha = async (requestData) => {
     try {
         const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SERVER_KEY}&response=${requestData["g-recaptcha-response"]}`, {
