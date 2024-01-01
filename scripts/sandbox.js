@@ -1,5 +1,5 @@
+"use strict";
 //fun typescript practice (╯°□°）╯︵ ┻━┻
-import * as config from "../config/config.js";
 const navGroupBurgerDiv = document.createElement("div");
 const parentNode = document.querySelector("header");
 const navGroupBtn = document.createElement("a");
@@ -362,8 +362,9 @@ const handleContactFormSubmission = () => {
                 jsonData[key] = value;
             });
             const jsonString = JSON.stringify(jsonData);
+            const endpoint = "http://localhost:8000/api/contact";
             try {
-                const response = await fetch(config.ENDPOINT, {
+                const response = await fetch(endpoint, {
                     method: "POST",
                     body: jsonString,
                 });
