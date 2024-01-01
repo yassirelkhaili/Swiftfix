@@ -1,7 +1,5 @@
 //fun typescript practice (╯°□°）╯︵ ┻━┻
 
-import * as config from "../config/config.js";
-
 const navGroupBurgerDiv = document.createElement("div") as HTMLDivElement;
 const parentNode: HTMLElement | null = document.querySelector("header");
 const navGroupBtn = document.createElement("a") as HTMLAnchorElement;
@@ -480,8 +478,9 @@ const handleContactFormSubmission = () => {
         jsonData[key] = value;
       });
       const jsonString: string = JSON.stringify(jsonData);
+      const endpoint: string = "http://localhost:8000/api/contact";
       try {
-        const response: Response = await fetch(config.ENDPOINT, {
+        const response: Response = await fetch(endpoint, {
           method: "POST",
           body: jsonString,
         });
